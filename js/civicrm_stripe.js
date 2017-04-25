@@ -1,3 +1,4 @@
+//# sourceURL=extensions/stripe/js/civicrm_stripe.js
 /**
  * @file
  * JS Integration between CiviCRM & Stripe.
@@ -50,7 +51,8 @@
     }
     else {
       if (!($('.stripe-payment-form').length)) {
-        $('#crm-container > form').addClass('stripe-payment-form');
+        //https://github.com/drastik/com.drastikbydesign.stripe/issues/209
+        $('#crm-container form').addClass('stripe-payment-form');
       }
     }
     $form   = $('form.stripe-payment-form');
