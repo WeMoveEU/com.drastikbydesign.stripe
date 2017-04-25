@@ -352,7 +352,9 @@ class CRM_Core_Payment_Stripe extends CRM_Core_Payment {
     }
     else {
       $qfKey = $params['qfKey'];
-      $parsed_url = parse_url($params['entryURL']);
+      //See https://github.com/drastik/com.drastikbydesign.stripe/issues/205
+      $entryURL = CRM_Utils_System::languageNegotiationURL($params['entryURL'], FALSE, TRUE);
+      $parsed_url = parse_url($entryURL);
       $url_path = substr($parsed_url['path'], 1);
       $params['stripe_error_url'] = $error_url = CRM_Utils_System::url($url_path,
       $parsed_url['query'] . "&_qf_Main_display=1&qfKey={$qfKey}", FALSE, NULL, FALSE);
