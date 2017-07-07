@@ -344,6 +344,9 @@ class CRM_Core_Payment_Stripe extends CRM_Core_Payment {
       return $params;
     }
 
+    /* 
+     * https://github.com/drastik/com.drastikbydesign.stripe/issues/222
+     * error url is probably not needed anymore
     // Get proper entry URL for returning on error.
     if (!(array_key_exists('qfKey', $params))) {
       // Probably not called from a civicrm form (e.g. webform) -
@@ -357,6 +360,7 @@ class CRM_Core_Payment_Stripe extends CRM_Core_Payment {
       $params['stripe_error_url'] = $error_url = CRM_Utils_System::url($url_path,
       $parsed_url['query'] . "&_qf_Main_display=1&qfKey={$qfKey}", FALSE, NULL, FALSE);
     }
+    */
 
     // Include Stripe library & Set API credentials.
     require_once('stripe-php/init.php');
