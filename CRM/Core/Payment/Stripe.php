@@ -364,8 +364,9 @@ class CRM_Core_Payment_Stripe extends CRM_Core_Payment {
     }
     */
 
-    // Include Stripe library & Set API credentials.
+    // Include Stripe library then set plugin info and API credentials.
     require_once('stripe-php/init.php');
+    \Stripe\Stripe::setAppInfo('CiviCRM', CRM_Utils_System::version(), CRM_Utils_System::baseURL());
     \Stripe\Stripe::setApiKey($this->_paymentProcessor['user_name']);
 
     // Stripe amount required in cents.
