@@ -207,15 +207,15 @@ class CRM_Stripe_Page_Webhook extends CRM_Core_Page {
          $result = civicrm_api3('Contribution', 'repeattransaction', array(
            // Actually, don't use contribution_recur_id until CRM-19945 patches make it in to 4.6/4.7
            // and we have a way to require a minimum minor CiviCRM version.
-	   //'contribution_recur_id' => $recurring_info->id,
-	   'original_contribution_id' => $recurring_info->previous_completed_contribution_id,
+           //'contribution_recur_id' => $recurring_info->id,
+           'original_contribution_id' => $recurring_info->previous_completed_contribution_id,
            'contribution_status_id' => "Completed",
            'receive_date' => $receive_date,
            'trxn_id' => $charge_id,
- 	   'total_amount' => $amount,
-	   'fee_amount' => $fee,
-	  //'invoice_id' => $new_invoice_id - contribution.repeattransaction doesn't support it currently
-	   'is_email_receipt' => 1,
+           'total_amount' => $amount,
+           'fee_amount' => $fee,
+           //'invoice_id' => $new_invoice_id - contribution.repeattransaction doesn't support it currently
+           'is_email_receipt' => 0, // Wemove doesn't want monthly receipts
          ));
 
         // Update invoice_id manually. repeattransaction doesn't return the new contrib id either, so we update the db.
