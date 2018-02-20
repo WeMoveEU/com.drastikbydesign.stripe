@@ -8,7 +8,7 @@ require_once 'CRM/Core/Page.php';
 
 class CRM_Stripe_Page_Webhook extends CRM_Core_Page {
   function run() {
-    function getRecurInfo($subscription_id,$test_mode) {
+    function getRecurInfo($subscription_id, $test_mode, $ignore_missing = FALSE) {
 
         $query_params = array(
           1 => array($subscription_id, 'String'),
@@ -21,9 +21,12 @@ class CRM_Stripe_Page_Webhook extends CRM_Core_Page {
         if (!empty($sub_info_query)) {
           $sub_info_query->fetch();
 
-          if(!empty($sub_info_query->contribution_recur_id)) {
-          $recurring_info = new StdClass;
-          $recurring_info->id = $sub_info_query->contribution_recur_id;
+          if (!empty($sub_info_query->contribution_recur_id)) {
+            $recurring_info = new StdClass;
+            $recurring_info->id = $sub_info_query->contribution_recur_id;
+          }
+          else if ($ignore_missing) {
+            CRM_Utils_System::civiExit();
           }
           else {
             header('HTTP/1.1 400 Bad Request');
@@ -264,7 +267,7 @@ class CRM_Stripe_Page_Webhook extends CRM_Core_Page {
         $transaction_id = $charge->id;
 
         // First, get the recurring contribution id and previous contribution id.
-        $recurring_info = getRecurInfo($subscription_id,$test_mode);
+        $recurring_info = getRecurInfo($subscription_id, $test_mode, TRUE);
 
         // Fetch the previous contribution's status.
         $previous_contribution_status = civicrm_api3('Contribution', 'getvalue', array(
