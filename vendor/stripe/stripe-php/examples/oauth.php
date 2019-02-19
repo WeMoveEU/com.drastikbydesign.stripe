@@ -11,10 +11,10 @@ if (isset($_GET['code'])) {
     $code = $_GET['code'];
 
     try {
-        $resp = \Stripe\OAuth::token(array(
+        $resp = \Stripe\OAuth::token([
             'grant_type' => 'authorization_code',
             'code' => $code,
-        ));
+        ]);
     } catch (\Stripe\Error\OAuth\OAuthBase $e) {
         exit("Error: " . $e->getMessage());
     }
@@ -29,7 +29,7 @@ if (isset($_GET['code'])) {
     $error = $_GET['error'];
     $error_description = $_GET['error_description'];
 
-    echo "<p>Error: code=$error, description=$error_description</p>\n";
+    echo "<p>Error: code=" . htmlspecialchars($error, ENT_QUOTES) . ", description=" . htmlspecialchars($error_description, ENT_QUOTES) . "</p>\n";
     echo "<p>Click <a href=\"?\">here</a> to restart the OAuth flow.</p>\n";
 
 } elseif (isset($_GET['deauth'])) {
@@ -37,19 +37,19 @@ if (isset($_GET['code'])) {
     $accountId = $_GET['deauth'];
 
     try {
-        \Stripe\OAuth::deauthorize(array(
+        \Stripe\OAuth::deauthorize([
             'stripe_user_id' => $accountId,
-        ));
+        ]);
     } catch (\Stripe\Error\OAuth\OAuthBase $e) {
         exit("Error: " . $e->getMessage());
     }
 
-    echo "<p>Success! Account <code>$accountId</code> is disonnected.</p>\n";
+    echo "<p>Success! Account <code>" . htmlspecialchars($accountId, ENT_QUOTES) . "</code> is disconnected.</p>\n";
     echo "<p>Click <a href=\"?\">here</a> to restart the OAuth flow.</p>\n";
 
 } else {
-    $url = \Stripe\OAuth::authorizeUrl(array(
+    $url = \Stripe\OAuth::authorizeUrl([
         'scope' => 'read_only',
-    ));
+    ]);
     echo "<a href=\"$url\">Connect with Stripe</a>\n";
 }

@@ -2,7 +2,7 @@
  * @file
  * JS Integration between CiviCRM & Stripe.
  */
-(function($, CRM) {
+CRM.$(function($) {
 
   // Response from Stripe.createToken.
   function stripeResponseHandler(status, response) {
@@ -47,6 +47,9 @@
   // Prepare the form.
   var onclickAction = null;
   $(document).ready(function() {
+    // Disable the browser "Leave Page Alert" which is triggered because we mess with the form submit function.
+    window.onbeforeunload = null;
+    // Load Stripe onto the form.
     loadStripeBillingBlock();
     $submit = getBillingSubmit();
 
@@ -376,7 +379,7 @@
 
   function debugging (errorCode) {
     // Uncomment the following to debug unexpected returns.
-    console.log(new Date().toISOString() + ' civicrm_stripe.js: ' + errorCode);
+    //console.log(new Date().toISOString() + ' civicrm_stripe.js: ' + errorCode);
   }
 
-}(cj, CRM));
+});

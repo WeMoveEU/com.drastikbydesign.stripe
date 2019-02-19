@@ -107,7 +107,6 @@ class CRM_Stripe_BaseTest extends \PHPUnit_Framework_TestCase implements Headles
    *
    */
   function createPaymentProcessor($params = array()) {
-    
     $result = civicrm_api3('Stripe', 'setuptest', $params);
     $processor = array_pop($result['values']);
     $this->_sk = $processor['user_name'];
@@ -157,12 +156,13 @@ class CRM_Stripe_BaseTest extends \PHPUnit_Framework_TestCase implements Headles
         'address_zip' => '12345',
       ),
       'email' => $this->contact->email,
+      'contactID' => $this->contact->id,
       'description' => 'Test from Stripe Test Code',
       'currencyID' => 'USD',
       'invoiceID' => $this->_invoiceID,
     ), $params);
 
-    $ret = $stripe->doDirectPayment($params);
+    $ret = $stripe->doPayment($params);
 
     if (array_key_exists('trxn_id', $ret)) {
       $this->_trxn_id = $ret['trxn_id'];

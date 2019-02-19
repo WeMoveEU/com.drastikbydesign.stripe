@@ -1,0 +1,24 @@
+site_name: Stripe Payment Processor (https://stripe.com)
+repo_url: https://lab.civicrm.org/extensions/stripe
+theme: material
+markdown_extensions:
+  - attr_list
+  - admonition
+  - def_list
+  - codehilite
+  - toc(permalink=true)
+  - pymdownx.superfences
+  - pymdownx.inlinehilite
+  - pymdownx.tilde
+  - pymdownx.betterem
+  - pymdownx.mark
+
+pages:
+- About: index.md
+- Installation: install.md
+- Recurring Contributions (Subscriptions): recur.md
+- Advanced:
+  - API: api.md
+  - Hooks: hooks.md
+  - Testing: testing.md
+- Release Notes: release/release_notes.md

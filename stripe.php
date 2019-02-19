@@ -25,41 +25,6 @@ function stripe_civicrm_xmlMenu(&$files) {
  * Implementation of hook_civicrm_install().
  */
 function stripe_civicrm_install() {
-  // Create required tables for Stripe.
-  require_once "CRM/Core/DAO.php";
-  CRM_Core_DAO::executeQuery("
-  CREATE TABLE IF NOT EXISTS `civicrm_stripe_customers` (
-    `email` varchar(64) COLLATE utf8_unicode_ci DEFAULT NULL,
-    `id` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-    `is_live` tinyint(4) NOT NULL COMMENT 'Whether this is a live or test transaction',
-    `processor_id` int(10) DEFAULT NULL COMMENT 'ID from civicrm_payment_processor',
-    UNIQUE KEY `id` (`id`)
-    ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-  ");
-
-  CRM_Core_DAO::executeQuery("
-  CREATE TABLE IF NOT EXISTS `civicrm_stripe_plans` (
-    `plan_id` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-    `is_live` tinyint(4) NOT NULL COMMENT 'Whether this is a live or test transaction',
-    `processor_id` int(10) DEFAULT NULL COMMENT 'ID from civicrm_payment_processor',
-    UNIQUE KEY `plan_id` (`plan_id`)
-    ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-  ");
-
-  CRM_Core_DAO::executeQuery("
-  CREATE TABLE IF NOT EXISTS `civicrm_stripe_subscriptions` (
-    `subscription_id` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-    `customer_id` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-    `contribution_recur_id` INT(10) UNSIGNED NULL DEFAULT NULL,
-    `end_time` int(11) NOT NULL DEFAULT '0',
-    `is_live` tinyint(4) NOT NULL COMMENT 'Whether this is a live or test transaction',
-    `processor_id` int(10) DEFAULT NULL COMMENT 'ID from civicrm_payment_processor',
-    KEY `end_time` (`end_time`), PRIMARY KEY `subscription_id` (`subscription_id`),
-    CONSTRAINT `FK_civicrm_stripe_contribution_recur_id` FOREIGN KEY (`contribution_recur_id`) 
-    REFERENCES `civicrm_contribution_recur`(`id`) ON DELETE SET NULL ON UPDATE RESTRICT 
-    ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-  ");
-
   _stripe_civix_civicrm_install();
 }
 
@@ -67,12 +32,6 @@ function stripe_civicrm_install() {
  * Implementation of hook_civicrm_uninstall().
  */
 function stripe_civicrm_uninstall() {
-  // Remove Stripe tables on uninstall.
-  require_once "CRM/Core/DAO.php";
-  CRM_Core_DAO::executeQuery("DROP TABLE civicrm_stripe_customers");
-  CRM_Core_DAO::executeQuery("DROP TABLE civicrm_stripe_plans");
-  CRM_Core_DAO::executeQuery("DROP TABLE civicrm_stripe_subscriptions");
-
   _stripe_civix_civicrm_uninstall();
 }
 
@@ -80,22 +39,12 @@ function stripe_civicrm_uninstall() {
  * Implementation of hook_civicrm_enable().
  */
 function stripe_civicrm_enable() {
-  $UF_webhook_paths = array(
-    "Drupal"    => "/civicrm/payment/ipn/NN",
-    "Joomla"    => "/index.php/component/civicrm/?task=civicrm/payment/ipn/NN",
-    "WordPress" => "/?page=CiviCRM&q=civicrm/payment/ipn/NN"
-  );
-
-  // Use Drupal path as default if the UF isn't in the map above
-  $webookhook_path = (array_key_exists(CIVICRM_UF, $UF_webhook_paths)) ?
-    CIVICRM_UF_BASEURL . $UF_webhook_paths[CIVICRM_UF] :
-    CIVICRM_UF_BASEURL . $UF_webhook_paths['Drupal'];
-
+  $UFWebhookPath = stripe_get_webhook_path(TRUE);
   CRM_Core_Session::setStatus(
     "
     <br />Don't forget to set up Webhooks in Stripe so that recurring contributions are ended!
     <br />Webhook path to enter in Stripe:
-    <br/><em>$webookhook_path</em>
+    <br/><em>$UFWebhookPath</em>
     <br />Replace NN with the actual payment processor ID configured on your site.
     <br />
     ",
@@ -251,21 +200,37 @@ function stripe_civicrm_buildForm($formName, &$form) {
   }
 }
 
+/**
+ * Get the path of the webhook depending on the UF (eg Drupal, Joomla, Wordpress)
+ *
+ * @param bool $includeBaseUrl
+ *
+ * @return string
+ */
+function stripe_get_webhook_path($includeBaseUrl = TRUE) {
+  $UFWebhookPaths = [
+    "Drupal"    => "civicrm/payment/ipn/NN",
+    "Joomla"    => "?option=com_civicrm&task=civicrm/payment/ipn/NN",
+    "WordPress" => "?page=CiviCRM&q=civicrm/payment/ipn/NN"
+  ];
+
+
+  // Use Drupal path as default if the UF isn't in the map above
+  $UFWebhookPath = (array_key_exists(CIVICRM_UF, $UFWebhookPaths)) ?
+    $UFWebhookPaths[CIVICRM_UF] :
+    $UFWebhookPaths['Drupal'];
+  if ($includeBaseUrl) {
+    return CIVICRM_UF_BASEURL . '/' . $UFWebhookPath;
+  }
+  return $UFWebhookPath;
+}
+
 /*
  * Implementation of hook_idsException.
  *
  * Ensure webhooks don't get caught in the IDS check.
  */
 function stripe_civicrm_idsException(&$skip) {
-  // Handle old method.
-  $skip[] = 'civicrm/stripe/webhook';
-  $result = civicrm_api3('PaymentProcessor', 'get', array(
-    'sequential' => 1,
-    'return' => "id",
-    'class_name' => "Payment_stripe",
-    'is_active' => 1,
-  ));
-  foreach($result['values'] as $value) {
-    $skip[] = 'civicrm/payment/ipn/' . $value['id'];
-  }
+  // Path is always set to civicrm/payment/ipn (checked on Drupal/Joomla)
+  $skip[] = 'civicrm/payment/ipn';
 }
