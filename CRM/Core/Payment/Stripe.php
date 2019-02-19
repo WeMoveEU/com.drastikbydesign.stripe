@@ -11,9 +11,8 @@ class CRM_Core_Payment_Stripe extends CRM_Core_Payment {
    * pattern and cache the instance in this variable
    *
    * @var object
-   * @static
    */
-  static private $_singleton = NULL;
+  private static $_singleton = NULL;
 
   /**
    * Mode of operation: live or test.
@@ -40,13 +39,10 @@ class CRM_Core_Payment_Stripe extends CRM_Core_Payment {
   /**
    * This function checks to see if we have the right config values.
    *
-   * @return string
+   * @return null|string
    *   The error message if any.
-   *
-   * @public
    */
   public function checkConfig() {
-    $config = CRM_Core_Config::singleton();
     $error = array();
 
     if (empty($this->_paymentProcessor['user_name'])) {
@@ -75,7 +71,7 @@ class CRM_Core_Payment_Stripe extends CRM_Core_Payment {
    */
   public function logStripeException($op, $exception) {
     $body = print_r($exception->getJsonBody(), TRUE);
-    CRM_Core_Error::debug_log_message("Stripe_Error {$op}:  <pre> {$body} </pre>");
+    Civi::log()->debug("Stripe_Error {$op}:  <pre> {$body} </pre>");
   }
 
   /**
@@ -84,14 +80,15 @@ class CRM_Core_Payment_Stripe extends CRM_Core_Payment {
    *
    * @param  $stripeReturn
    *   The return from a call to stripeCatchErrors
+   *
    * @return bool
    *
    */
   public function isErrorReturn($stripeReturn) {
-      if (is_object($stripeReturn) && get_class($stripeReturn) == 'CRM_Core_Error') {
-        return true;
-      }
-      return false;
+    if (is_object($stripeReturn) && get_class($stripeReturn) == 'CRM_Core_Error') {
+      return TRUE;
+    }
+    return FALSE;
   }
 
   /**
@@ -99,11 +96,15 @@ class CRM_Core_Payment_Stripe extends CRM_Core_Payment {
    *
    * @param string $op
    *   Determine which operation to perform.
+   * @param $stripe_params
    * @param array $params
    *   Parameters to run Stripe calls on.
+   * @param array $ignores
    *
-   * @return varies
+   * @return bool|\CRM_Core_Error|\Stripe\Charge|\Stripe\Customer|\Stripe\Plan
    *   Response from gateway.
+   *
+   * @throws \CiviCRM_API3_Exception
    */
   public function stripeCatchErrors($op = 'create_customer', $stripe_params, $params, $ignores = array()) {
     $error_url = $params['stripe_error_url'];
@@ -144,46 +145,6 @@ class CRM_Core_Payment_Stripe extends CRM_Core_Payment {
           break;
       }
     }
-    catch (Stripe_CardError $e) {
-      $this->logStripeException($op, $e);
-      $error_message = '';
-      // Since it's a decline, Stripe_CardError will be caught
-      $body = $e->getJsonBody();
-      $err = $body['error'];
-
-      //$error_message .= 'Status is: ' . $e->getHttpStatus() . "<br />";
-      ////$error_message .= 'Param is: ' . $err['param'] . "<br />";
-      $error_message .= 'Type: ' . $err['type'] . '<br />';
-      $error_message .= 'Code: ' . $err['code'] . '<br />';
-      $error_message .= 'Message: ' . $err['message'] . '<br />';
-
-      $newnote = civicrm_api3('Note', 'create', array(
-        'sequential' => 1,
-	'entity_id' => $params['contactID'],
-	'contact_id' => $params['contributionID'],
-	'subject' => $err['type'],
-	'note' => $err['code'],
-	'entity_table' => "civicrm_contributions",
-       ));
-
-      if (isset($error_url)) {
-      // Redirect to first page of form and present error.
-      CRM_Core_Error::statusBounce("Oops!  Looks like there was an error.  Payment Response:
-        <br /> {$error_message}", $error_url);
-      }
-      else {
-        // Don't have return url - return error object to api
-        $core_err = CRM_Core_Error::singleton();
-        $message = 'Oops!  Looks like there was an error.  Payment Response: <br />' . $error_message;
-        if ($err['code']) {
-          $core_err->push($err['code'], 0, NULL, $message);
-        }
-        else {
-          $core_err->push(9000, 0, NULL, 'Unknown Error');
-        }
-        return $core_err;
-      }
-    }
     catch (Exception $e) {
       if (is_a($e, 'Stripe_Error')) {
         foreach ($ignores as $ignore) {
@@ -195,19 +156,32 @@ class CRM_Core_Payment_Stripe extends CRM_Core_Payment {
             }
           }
         }
-        $this->logStripeException($op, $e);
       }
-      // Something else happened, completely unrelated to Stripe
+
+      $this->logStripeException($op, $e);
       $error_message = '';
       // Since it's a decline, Stripe_CardError will be caught
       $body = $e->getJsonBody();
       $err = $body['error'];
-
+      if (!isset($err['code'])) {
+        $err['code'] = null;
+      }
       //$error_message .= 'Status is: ' . $e->getHttpStatus() . "<br />";
       ////$error_message .= 'Param is: ' . $err['param'] . "<br />";
-      $error_message .= 'Type: ' . $err['type'] . "<br />";
-      $error_message .= 'Code: ' . $err['code'] . "<br />";
-      $error_message .= 'Message: ' . $err['message'] . "<br />";
+      $error_message .= 'Type: ' . $err['type'] . '<br />';
+      $error_message .= 'Code: ' . $err['code'] . '<br />';
+      $error_message .= 'Message: ' . $err['message'] . '<br />';
+
+      if (is_a($e, 'Stripe_CardError')) {
+        $newnote = civicrm_api3('Note', 'create', array(
+          'sequential' => 1,
+          'entity_id' => $params['contactID'],
+          'contact_id' => $params['contributionID'],
+          'subject' => $err['type'],
+          'note' => $err['code'],
+          'entity_table' => "civicrm_contributions",
+        ));
+      }
 
       if (isset($error_url)) {
       // Redirect to first page of form and present error.
@@ -222,7 +196,7 @@ class CRM_Core_Payment_Stripe extends CRM_Core_Payment {
           $core_err->push($err['code'], 0, NULL, $message);
         }
         else {
-          $core_err->push(9000, 0, NULL, 'Unknown Error');
+          $core_err->push(9000, 0, NULL, 'Unknown Error: ' . $message);
         }
         return $core_err;
       }
@@ -232,98 +206,168 @@ class CRM_Core_Payment_Stripe extends CRM_Core_Payment {
   }
 
   /**
-   * Implementation of hook_civicrm_buildForm().
+   * Override CRM_Core_Payment function
    *
-   * @param $form - reference to the form object
+   * @return array
    */
-  public function buildForm(&$form) {
-    $stripe_ppid = self::get_stripe_ppid($form);
-
-    // Add the ID to our form so our js can tell if Stripe has been selected.
-    $form->addElement('hidden', 'stripe_id', $stripe_ppid, array('id' => 'stripe-id'));
-
-    $stripe_key = self::stripe_get_key($stripe_ppid);
-    $form->addElement('hidden', 'stripe_pub_key', $stripe_key, array('id' => 'stripe-pub-key'));
-
-    $params = $form->get('params');
-    // Contrib forms store this in $params, Event forms in $params[0].
-    if (!empty($params[0]['stripe_token'])) {
-      $params = $params[0];
-    }
-    $stripe_token = (empty($params['stripe_token']) ? NULL : $params['stripe_token']);
-
-    // Add some hidden fields for Stripe.
-    if (!$form->elementExists('stripe_token')) {
-      $form->setAttribute('class', $form->getAttribute('class') . ' stripe-payment-form');
-      $form->addElement('hidden', 'stripe_token', $stripe_token, array('id' => 'stripe-token'));
-    }
-
-    // Add the Civi version so we can accommodate different versions in civicrm_stripe.js.
-    if (self::get_civi_version() <= '4.7.0') {
-      $ext_mode = 1;
-    }
-    else {
-      $ext_mode = 2;
-    }
-    $form->addElement('hidden', 'ext_mode', $ext_mode, array('id' => 'ext-mode'));
-
-    // Add email field as it would usually be found on donation forms.
-    if (!isset($form->_elementIndex['email']) && !empty($form->userEmail)) {
-      $form->addElement('hidden', 'email', $form->userEmail, array('id' => 'user-email'));
-    }
-  }
-
- public static function get_stripe_ppid($form) {
-    if (empty($form->_paymentProcessor)) {
-      return;
-    }
-    // Determine if we are dealing with a webform in CiviCRM 4.7.  Those don't have a
-    //  _paymentProcessors array and only have one payprocesssor.
-    if (in_array(get_class($form), array('CRM_Financial_Form_Payment', 'CRM_Contribute_Form_Contribution'))) {
-      return $stripe_ppid = $form->_paymentProcessor['id'];
-    }
-    else {
-      // Find a Stripe pay processor ascociated with this Civi form and find the ID.
-   //   $payProcessors = $form->_paymentProcessors;
-      $payProcessors = CRM_Core_Form_Stripe::get_ppids($form);
-      foreach ($payProcessors as $payProcessor) {
-        if ($payProcessor['class_name'] == 'Payment_Stripe') {
-          return $stripe_ppid = $payProcessor['id'];
-          break;
-        }
-      }
-    }
-    // None of the payprocessors are Stripe.
-    if (empty($stripe_ppid)) {
-      return;
-    }
+  public function getPaymentFormFields() {
+    return array(
+      'credit_card_type',
+      'credit_card_number',
+      'cvv2',
+      'credit_card_exp_date',
+      'stripe_token',
+      'stripe_pub_key',
+      'stripe_id',
+    );
   }
 
   /**
-   * Given a payment processor id, return the pub key.
+   * Return an array of all the details about the fields potentially required for payment fields.
+   *
+   * Only those determined by getPaymentFormFields will actually be assigned to the form
+   *
+   * @return array
+   *   field metadata
    */
-  public function stripe_get_key($stripe_ppid) {
+  public function getPaymentFormFieldsMetadata() {
+    $creditCardType = array('' => ts('- select -')) + CRM_Contribute_PseudoConstant::creditCard();
+    return array(
+      'credit_card_number' => array(
+        'htmlType' => 'text',
+        'name' => 'credit_card_number',
+        'title' => ts('Card Number'),
+        'cc_field' => TRUE,
+        'attributes' => array(
+          'size' => 20,
+          'maxlength' => 20,
+          'autocomplete' => 'off',
+        ),
+        'is_required' => TRUE,
+      ),
+      'cvv2' => array(
+        'htmlType' => 'text',
+        'name' => 'cvv2',
+        'title' => ts('Security Code'),
+        'cc_field' => TRUE,
+        'attributes' => array(
+          'size' => 5,
+          'maxlength' => 10,
+          'autocomplete' => 'off',
+        ),
+        'is_required' => TRUE,
+      ),
+      'credit_card_exp_date' => array(
+        'htmlType' => 'date',
+        'name' => 'credit_card_exp_date',
+        'title' => ts('Expiration Date'),
+        'cc_field' => TRUE,
+        'attributes' => CRM_Core_SelectValues::date('creditCard'),
+        'is_required' => TRUE,
+        'month_field' => 'credit_card_exp_date_M',
+        'year_field' => 'credit_card_exp_date_Y',
+      ),
+
+      'credit_card_type' => array(
+        'htmlType' => 'select',
+        'name' => 'credit_card_type',
+        'title' => ts('Card Type'),
+        'cc_field' => TRUE,
+        'attributes' => $creditCardType,
+        'is_required' => FALSE,
+      ),
+      'stripe_token' => array(
+        'htmlType' => 'hidden',
+        'name' => 'stripe_token',
+        'title' => 'Stripe Token',
+        'attributes' => array(
+          'id' => 'stripe-token',
+        ),
+        'cc_field' => TRUE,
+        'is_required' => TRUE,
+      ),
+      'stripe_id' => array(
+        'htmlType' => 'hidden',
+        'name' => 'stripe_id',
+        'title' => 'Stripe ID',
+        'attributes' => array(
+          'id' => 'stripe-id',
+        ),
+        'cc_field' => TRUE,
+        'is_required' => TRUE,
+      ),
+      'stripe_pub_key' => array(
+        'htmlType' => 'hidden',
+        'name' => 'stripe_pub_key',
+        'title' => 'Stripe Public Key',
+        'attributes' => array(
+          'id' => 'stripe-pub-key',
+        ),
+        'cc_field' => TRUE,
+        'is_required' => TRUE,
+      ),
+    );
+  }
+
+  /**
+   * Get form metadata for billing address fields.
+   *
+   * @param int $billingLocationID
+   *
+   * @return array
+   *    Array of metadata for address fields.
+   */
+  public function getBillingAddressFieldsMetadata($billingLocationID = NULL) {
+    $metadata = parent::getBillingAddressFieldsMetadata($billingLocationID);
+    if (!$billingLocationID) {
+      // Note that although the billing id is passed around the forms the idea that it would be anything other than
+      // the result of the function below doesn't seem to have eventuated.
+      // So taking this as a param is possibly something to be removed in favour of the standard default.
+      $billingLocationID = CRM_Core_BAO_LocationType::getBilling();
+    }
+
+    // Stripe does not require the state/county field
+    if (!empty($metadata["billing_state_province_id-{$billingLocationID}"]['is_required'])) {
+      $metadata["billing_state_province_id-{$billingLocationID}"]['is_required'] = FALSE;
+    }
+
+    return $metadata;
+  }
+
+  /**
+   * Set default values when loading the (payment) form
+   *
+   * @param \CRM_Core_Form $form
+   */
+  public function buildForm(&$form) {
+    // Set default values
+    $paymentProcessorId = CRM_Utils_Array::value('id', $form->_paymentProcessor);
+    $publishableKey = CRM_Core_Payment_Stripe::getPublishableKey($paymentProcessorId);
+    $defaults = [
+      'stripe_id' => $paymentProcessorId,
+      'stripe_pub_key' => $publishableKey,
+    ];
+    $form->setDefaults($defaults);
+  }
+
+   /**
+   * Given a payment processor id, return the publishable key (password field)
+   *
+   * @param $paymentProcessorId
+   *
+   * @return string
+   */
+  public static function getPublishableKey($paymentProcessorId) {
     try {
-      $result = civicrm_api3('PaymentProcessor', 'getvalue', array(
+      $publishableKey = (string) civicrm_api3('PaymentProcessor', 'getvalue', array(
         'return' => "password",
-        'id' => $stripe_ppid,
+        'id' => $paymentProcessorId,
       ));
     }
     catch (CiviCRM_API3_Exception $e) {
-      return NULL;
+      return '';
     }
-    return $result;
-  }
-
-  /**
-   * Return the CiviCRM version we're running.
-   */
-  public function get_civi_version() {
-    $version = civicrm_api3('Domain', 'getvalue', array(
-      'return' => "version",
-      'current_domain' => true,
-    ));
-    return $version;
+    return $publishableKey;
   }
 
   /**
@@ -333,12 +377,19 @@ class CRM_Core_Payment_Stripe extends CRM_Core_Payment {
    * @param array $params
    *   Assoc array of input parameters for this transaction.
    *
-   * @return array
+   * @return array|\CRM_Core_Error
    *   The result in a nice formatted array (or an error object).
    *
-   * @public
+   * @throws \CiviCRM_API3_Exception
    */
   public function doDirectPayment(&$params) {
+    if (array_key_exists('credit_card_number', $params)) {
+      $cc = $params['credit_card_number'];
+      if (!empty($cc) && substr($cc, 0, 8) != '00000000') {
+        Civi::log()->debug(ts('ALERT! Unmasked credit card received in back end. Please report this error to the site administrator.'));
+      }
+    }
+
     // Let a $0 transaction pass.
     if (empty($params['amount']) || $params['amount'] == 0) {
       return $params;
@@ -364,8 +415,7 @@ class CRM_Core_Payment_Stripe extends CRM_Core_Payment {
     }
     */
 
-    // Include Stripe library then set plugin info and API credentials.
-    require_once('stripe-php/init.php');
+    // Set plugin info and API credentials.
     \Stripe\Stripe::setAppInfo('CiviCRM', CRM_Utils_System::version(), CRM_Utils_System::baseURL());
     \Stripe\Stripe::setApiKey($this->_paymentProcessor['user_name']);
 
@@ -375,10 +425,14 @@ class CRM_Core_Payment_Stripe extends CRM_Core_Payment {
 
     // Use Stripe.js instead of raw card details.
     if (!empty($params['stripe_token'])) {
-      $card_details = $params['stripe_token'];
+      $card_token = $params['stripe_token'];
+    }
+    else if(!empty(CRM_Utils_Array::value('stripe_token', $_POST, NULL))) {
+      $card_token = CRM_Utils_Array::value('stripe_token', $_POST, NULL);
     }
     else {
-      CRM_Core_Error::fatal(ts('Stripe.js token was not passed!  Report this message to the site administrator.'));
+      CRM_Core_Error::statusBounce(ts('Unable to complete payment! Please this to the site administrator with a description of what you were trying to do.'));
+      Civi::log()->debug('Stripe.js token was not passed!  Report this message to the site administrator. $params: ' . print_r($params, TRUE));
     }
 
     // Check for existing customer, create new otherwise.
@@ -469,7 +523,7 @@ class CRM_Core_Payment_Stripe extends CRM_Core_Payment {
     if (!isset($customer_query)) {
       $sc_create_params = array(
         'description' => 'Donor from CiviCRM',
-        'card' => $card_details,
+        'card' => $card_token,
         'email' => $email,
       );
 
@@ -502,15 +556,13 @@ class CRM_Core_Payment_Stripe extends CRM_Core_Payment {
           return $stripe_customer;
         }
         // Avoid the 'use same token twice' issue while still using latest card.
-        if (!empty($params['selectMembership'])
-          && $params['selectMembership']
-          && empty($params['contributionPageID'])
-        ) {
-          // This is a Contribution form w/ Membership option and charge is
-          // coming through for the 2nd time.  Don't need to update customer again.
+        if (!empty($params['is_secondary_financial_transaction'])) {
+          // This is a Contribution page with "Separate Membership Payment".
+          // Charge is coming through for the 2nd time.
+          // Don't update customer again or we will get "token_already_used" error from Stripe.
         }
         else {
-          $stripe_customer->card = $card_details;
+          $stripe_customer->card = $card_token;
           $response = $this->stripeCatchErrors('save', $stripe_customer, $params);
             if (isset($response) && $this->isErrorReturn($response)) {
               return $response;
@@ -522,7 +574,7 @@ class CRM_Core_Payment_Stripe extends CRM_Core_Payment {
         // retrieved from Stripe.  Was he deleted?
         $sc_create_params = array(
           'description' => 'Donor from CiviCRM',
-          'card' => $card_details,
+          'card' => $card_token,
           'email' => $email,
         );
 
@@ -562,10 +614,7 @@ class CRM_Core_Payment_Stripe extends CRM_Core_Payment {
 
     // Prepare the charge array, minus Customer/Card details.
     if (empty($params['description'])) {
-      $params['description'] = ts('CiviCRM backend contribution');
-    }
-    else {
-      $params['description'] = ts('CiviCRM # ') . $params['description'];
+      $params['description'] = ts('Backend contribution');
     }
 
     // Stripe charge.
@@ -580,7 +629,7 @@ class CRM_Core_Payment_Stripe extends CRM_Core_Payment {
       $stripe_charge['customer'] = $stripe_customer->id;
     }
     else {
-      $stripe_charge['card'] = $card_details;
+      $stripe_charge['card'] = $card_token;
     }
 
     // Handle recurring payments in doRecurPayment().
@@ -637,7 +686,7 @@ class CRM_Core_Payment_Stripe extends CRM_Core_Payment {
    * @return array
    *   The result in a nice formatted array (or an error object).
    *
-   * @public
+   * @throws \CiviCRM_API3_Exception
    */
   public function doRecurPayment(&$params, $amount, $stripe_customer) {
     // Get recurring contrib properties.
@@ -751,11 +800,15 @@ class CRM_Core_Payment_Stripe extends CRM_Core_Payment {
 
     if (!isset($stripe_plan_query)) {
       $formatted_amount = number_format(($amount / 100), 2);
+      $product = \Stripe\Product::create(array(
+        "name" => "CiviCRM {$membership_name} every {$frequency_interval} {$frequency}(s) {$formatted_amount}{$currency}{$mode_tag}",
+        "type" => "service"
+      ));
       // Create a new Plan.
       $stripe_plan = array(
         'amount' => $amount,
         'interval' => $frequency,
-        'name' => "CiviCRM {$membership_name} every {$frequency_interval} {$frequency}(s) {$formatted_amount}{$currency}{$mode_tag}",
+        'product' => $product->id,
         'currency' => $currency,
         'id' => $plan_id,
         'interval_count' => $frequency_interval,
@@ -825,6 +878,10 @@ class CRM_Core_Payment_Stripe extends CRM_Core_Payment {
 
     //  Don't return a $params['trxn_id'] here or else recurring membership contribs will be set
     //  "Completed" prematurely.  Webhook.php does that.
+    
+    // Add subscription_id so tests can properly work with recurring
+    // contributions. 
+    $params['subscription_id'] = $subscription_id;
 
     return $params;
 
@@ -838,10 +895,40 @@ class CRM_Core_Payment_Stripe extends CRM_Core_Payment {
    *
    * @return void
    *
-   * @access public
-   *
    */
   public function doTransferCheckout(&$params, $component) {
-    CRM_Core_Error::fatal(ts('Use direct billing instead of Transfer method.'));
+    self::doDirectPayment($params);
   }
+
+  /**
+   * Default payment instrument validation.
+   *
+   * Implement the usual Luhn algorithm via a static function in the CRM_Core_Payment_Form if it's a credit card
+   * Not a static function, because I need to check for payment_type.
+   *
+   * @param array $values
+   * @param array $errors
+   */
+  public function validatePaymentInstrument($values, &$errors) {
+    // Use $_POST here and not $values - for webform fields are not set in $values, but are in $_POST
+    CRM_Core_Form::validateMandatoryFields($this->getMandatoryFields(), $_POST, $errors);
+    if ($this->_paymentProcessor['payment_type'] == 1) {
+      // Don't validate credit card details as they are not passed (and stripe does this for us)
+      //CRM_Core_Payment_Form::validateCreditCard($values, $errors, $this->_paymentProcessor['id']);
+    }
+  }
+
+  /**
+   * Process incoming notification.
+   *
+   * @throws \CRM_Core_Exception
+   */
+  public static function handlePaymentNotification() {
+    $data_raw = file_get_contents("php://input");
+    $data = json_decode($data_raw);
+    $ipnClass = new CRM_Core_Payment_StripeIPN($data);
+    $ipnClass->main();
+  }
+
 }
+

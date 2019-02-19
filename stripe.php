@@ -1,15 +1,15 @@
 <?php
 
 require_once 'stripe.civix.php';
+require_once __DIR__.'/vendor/autoload.php';
+
+use CRM_Stripe_ExtensionUtil as E;
 
 /**
  * Implementation of hook_civicrm_config().
  */
 function stripe_civicrm_config(&$config) {
   _stripe_civix_civicrm_config($config);
-  $extRoot = dirname( __FILE__ ) . DIRECTORY_SEPARATOR . 'packages' . DIRECTORY_SEPARATOR;
-  $include_path = $extRoot . PATH_SEPARATOR . get_include_path( );
-  set_include_path( $include_path );
 }
 
 /**
@@ -60,7 +60,7 @@ function stripe_civicrm_install() {
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
   ");
 
-  return _stripe_civix_civicrm_install();
+  _stripe_civix_civicrm_install();
 }
 
 /**
@@ -73,7 +73,7 @@ function stripe_civicrm_uninstall() {
   CRM_Core_DAO::executeQuery("DROP TABLE civicrm_stripe_plans");
   CRM_Core_DAO::executeQuery("DROP TABLE civicrm_stripe_subscriptions");
 
-  return _stripe_civix_civicrm_uninstall();
+  _stripe_civix_civicrm_uninstall();
 }
 
 /**
@@ -81,22 +81,30 @@ function stripe_civicrm_uninstall() {
  */
 function stripe_civicrm_enable() {
   $UF_webhook_paths = array(
-    "Drupal"    => "/civicrm/stripe/webhook",
-    "Drupal6"   => "/civicrm/stripe/webhook",
-    "Joomla"    => "/index.php/component/civicrm/?task=civicrm/stripe/webhook",
-    "WordPress" => "/?page=CiviCRM&q=civicrm/stripe/webhook"
+    "Drupal"    => "/civicrm/payment/ipn/NN",
+    "Joomla"    => "/index.php/component/civicrm/?task=civicrm/payment/ipn/NN",
+    "WordPress" => "/?page=CiviCRM&q=civicrm/payment/ipn/NN"
   );
+
   // Use Drupal path as default if the UF isn't in the map above
   $webookhook_path = (array_key_exists(CIVICRM_UF, $UF_webhook_paths)) ?
     CIVICRM_UF_BASEURL . $UF_webhook_paths[CIVICRM_UF] :
-    CIVICRM_UF_BASEURL . "civicrm/stripe/webhook";
+    CIVICRM_UF_BASEURL . $UF_webhook_paths['Drupal'];
 
-  CRM_Core_Session::setStatus("Stripe Payment Processor Message:
+  CRM_Core_Session::setStatus(
+    "
     <br />Don't forget to set up Webhooks in Stripe so that recurring contributions are ended!
-    <br />Webhook path to enter in Stripe:<br/><em>$webookhook_path</em>
-    <br />");
+    <br />Webhook path to enter in Stripe:
+    <br/><em>$webookhook_path</em>
+    <br />Replace NN with the actual payment processor ID configured on your site.
+    <br />
+    ",
+    'Stripe Payment Processor',
+    'info',
+    ['expires' => 0]
+  );
 
-  return _stripe_civix_civicrm_enable();
+  _stripe_civix_civicrm_enable();
 }
 
 /**
@@ -149,7 +157,7 @@ function stripe_civicrm_managed(&$entities) {
     ),
   );
 
-  return _stripe_civix_civicrm_managed($entities);
+  _stripe_civix_civicrm_managed($entities);
 }
 
 /**
@@ -188,21 +196,60 @@ function stripe_civicrm_managed(&$entities) {
     }
   }
 
-  /**
-   * Implementation of hook_civicrm_alterContent
+// Flag so we don't add the stripe scripts more than once.
+static $_stripe_scripts_added;
+
+/**
+ * Implementation of hook_civicrm_alterContent
+ *
+ * Adding civicrm_stripe.js in a way that works for webforms and (some) Civi forms.
+ * hook_civicrm_buildForm is not called for webforms
+ *
+ * @return void
+ */
+function stripe_civicrm_alterContent( &$content, $context, $tplName, &$object ) {
+  global $_stripe_scripts_added;
+  /* Adding stripe js:
+   * - Webforms don't get scripts added by hook_civicrm_buildForm so we have to user alterContent
+   * - (Webforms still call buildForm and it looks like they are added but they are not,
+   *   which is why we check for $object instanceof CRM_Financial_Form_Payment here to ensure that
+   *   Webforms always have scripts added).
+   * - Almost all forms have context = 'form' and a paymentprocessor object.
+   * - Membership backend form is a 'page' and has a _isPaymentProcessor=true flag.
    *
-   * Adding civicrm_stripe.js in a way that works for webforms and Civi forms.
-   *
-   * @return void
    */
-  function stripe_civicrm_alterContent( &$content, $context, $tplName, &$object ) {
-    if($context == 'form' && !empty($object->_paymentProcessor['class_name'])) {
-      if($object->_paymentProcessor['class_name'] == 'Payment_Stripe') {
-        $stripeJSURL = CRM_Core_Resources::singleton()->getUrl('com.drastikbydesign.stripe', 'js/civicrm_stripe.js');
-        $content .= "<script src='{$stripeJSURL}'></script>";
-      }
+  if (($context == 'form' && !empty($object->_paymentProcessor['class_name']))
+     || (($context == 'page') && !empty($object->_isPaymentProcessor))) {
+    if (!$_stripe_scripts_added || $object instanceof CRM_Financial_Form_Payment) {
+      $stripeJSURL = CRM_Core_Resources::singleton()
+        ->getUrl('com.drastikbydesign.stripe', 'js/civicrm_stripe.js');
+      $content .= "<script src='{$stripeJSURL}'></script>";
+      $_stripe_scripts_added = TRUE;
     }
   }
+}
+
+/**
+ * Add stripe.js to forms, to generate stripe token
+ * hook_civicrm_alterContent is not called for all forms (eg. CRM_Contribute_Form_Contribution on backend)
+ *
+ * @param string $formName
+ * @param CRM_Core_Form $form
+ */
+function stripe_civicrm_buildForm($formName, &$form) {
+  global $_stripe_scripts_added;
+  if (!isset($form->_paymentProcessor)) {
+    return;
+  }
+  $paymentProcessor = $form->_paymentProcessor;
+  if (!empty($paymentProcessor['class_name'])) {
+    if (!$_stripe_scripts_added) {
+      CRM_Core_Resources::singleton()
+        ->addScriptFile('com.drastikbydesign.stripe', 'js/civicrm_stripe.js');
+    }
+    $_stripe_scripts_added = TRUE;
+  }
+}
 
 /*
  * Implementation of hook_idsException.

@@ -114,15 +114,17 @@ class CRM_Stripe_Page_Webhook extends CRM_Core_Page {
       CRM_Utils_System::civiExit();
     }
 
-    require_once ("packages/stripe-php/init.php");
     \Stripe\Stripe::setAppInfo('CiviCRM', CRM_Utils_System::version(), CRM_Utils_System::baseURL());
     \Stripe\Stripe::setApiKey($stripe_key);
 
     // Retrieve Event from Stripe using ID even though we already have the values now.
     // This is for extra security precautions mentioned here: https://stripe.com/docs/webhooks
     $stripe_event_data = \Stripe\Event::retrieve($data->id);
-    $customer_id = $stripe_event_data->data->object->customer;
-
+    // Not all event objects have a customer property. Check first.
+    if (isset($stripe_event_data->data->object->customer)) {
+      $customer_id = $stripe_event_data->data->object->customer;
+    }  
+    
     switch($stripe_event_data->type) {
       // Successful recurring payment.
       case 'invoice.payment_succeeded':

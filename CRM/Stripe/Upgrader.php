@@ -1,5 +1,4 @@
 <?php
-require_once('packages/stripe-php/init.php');
 /**
  * Collection of upgrade steps.
  * DO NOT USE a naming scheme other than upgrade_N, where N is an integer.  
@@ -115,7 +114,7 @@ class CRM_Stripe_Upgrader extends CRM_Stripe_Upgrader_Base {
         }
       }
       catch (CiviCRM_API3_Exception $e) {
-        CRM_Core_Error::debug_log_message("Cannot find a PaymentProcessorType named Stripe.", $out = false);
+        Civi::log()->debug("Cannot find a PaymentProcessorType named Stripe.");
         return;
       }
     }
@@ -175,7 +174,7 @@ class CRM_Stripe_Upgrader extends CRM_Stripe_Upgrader_Base {
              ));
           }
           catch (Exception $e) { 
-            CRM_Core_Error::debug_log_message('Update 5004 failed. Has Stripe been removed as a payment processor?', $out = false);
+            Civi::log()->debug('Update 5004 failed. Has Stripe been removed as a payment processor?', $out = false);
             return;
           }
           try {
@@ -187,8 +186,7 @@ class CRM_Stripe_Upgrader extends CRM_Stripe_Upgrader_Base {
           } 
           catch (Exception $e) {
             // Don't quit here.  A missing customer in Stipe is OK.  They don't exist, so they can't have a subscription.
-            $debug_code = 'Cannot find Stripe API key: ' . $e->getMessage();
-            CRM_Core_Error::debug_log_message($debug_code, $out = false);
+            Civi::log()->debug('Cannot find Stripe API key: ' . $e->getMessage());
           }
           if (!empty($subscription['data'][0]['id'])) {
             $query_params = array(
@@ -257,8 +255,7 @@ class CRM_Stripe_Upgrader extends CRM_Stripe_Upgrader_Base {
         } 
         catch (CiviCRM_API3_Exception $e) {
           // Don't quit here. If we can't find the recurring ID for a single customer, make a note in the error log and carry on.
-          $debug_code = 'Recurring contribution search: ' . $e->getMessage();
-          CRM_Core_Error::debug_log_message($debug_code, $out = false);
+          Civi::log()->debug('Recurring contribution search: ' . $e->getMessage());
         }
         if (!empty($recur_id)) {
           $p = array(

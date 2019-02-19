@@ -1,0 +1,720 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<meta content="text/html; charset=UTF-8" http-equiv="content-type" />
+	<title>civicrm-stripe-test-suite</title>
+</head>
+<body>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">Login</td></tr>
+</thead>
+<tbody>
+<tr><td>open</td><td>http://localhost:8001/<datalist><option>http://localhost:8001/</option></datalist></td><td></td>
+</tr>
+<tr><td>click</td><td>id=edit-name<datalist><option>id=edit-name</option><option>name=name</option><option>//input[@id='edit-name']</option><option>//form[@id='user-login-form']/div/div/input</option><option>//input</option><option>css=#edit-name</option></datalist></td><td></td>
+</tr>
+<tr><td>type</td><td>id=edit-name<datalist><option>id=edit-name</option><option>name=name</option><option>//input[@id='edit-name']</option><option>//form[@id='user-login-form']/div/div/input</option><option>//input</option><option>css=#edit-name</option></datalist></td><td>admin</td>
+</tr>
+<tr><td>type</td><td>id=edit-pass<datalist><option>id=edit-pass</option><option>name=pass</option><option>//input[@id='edit-pass']</option><option>//form[@id='user-login-form']/div/div[2]/input</option><option>//div[2]/input</option><option>css=#edit-pass</option></datalist></td><td>admin</td>
+</tr>
+<tr><td>click</td><td>id=edit-submit<datalist><option>id=edit-submit</option><option>name=op</option><option>//input[@id='edit-submit']</option><option>//div[@id='edit-actions']/input</option><option>//div[4]/input</option><option>css=#edit-submit</option></datalist></td><td></td>
+</tr>
+</tbody></table>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">Enable Stripe Extension</td></tr>
+</thead>
+<tbody>
+<tr><td>open</td><td>http://localhost:8001/node<datalist><option>http://localhost:8001/node</option><option>http://localhost:8000/node</option></datalist></td><td></td>
+</tr>
+<tr><td>click</td><td>link=CiviCRM<datalist><option>link=CiviCRM</option><option>//a[contains(text(),'CiviCRM')]</option><option>//div[@id='block-system-navigation']/div[2]/ul/li[2]/a</option><option>//a[contains(@href, '/civicrm/dashboard')]</option><option>//div[2]/ul/li[2]/a</option><option>css=div.content &gt; ul.menu.clearfix &gt; li.last.leaf &gt; a</option></datalist></td><td></td>
+</tr>
+<tr><td>clickAndWait</td><td>link=Extensions<datalist><option>link=Extensions</option><option>//a[contains(text(),'Extensions')]</option><option>//div[@id='root-menu-div']/div[20]/ul/li[3]/div/a</option><option>//a[contains(@href, '/civicrm/admin/extensions?reset=1')]</option><option>//div[20]/ul/li[3]/div/a</option><option>css=li.active &gt; div.menu-item &gt; a</option></datalist></td><td></td>
+</tr>
+<tr><td>clickAndWait</td><td>link=Install<datalist><option>link=Install</option><option>//a[contains(text(),'Install')]</option><option>//tr[@id='extension-com.drastikbydesign.stripe']/td[5]/span/a</option><option>//a[contains(@href, '/civicrm/admin/extensions?action=add&amp;id=com.drastikbydesign.stripe&amp;key=com.drastikbydesign.stripe')]</option><option>//span/a</option><option>css=a.action-item.crm-hover-button</option></datalist></td><td></td>
+</tr>
+<tr><td>clickAndWait</td><td>id=_qf_Extensions_next-bottom<datalist><option>id=_qf_Extensions_next-bottom</option><option>name=_qf_Extensions_next</option><option>//input[@id='_qf_Extensions_next-bottom']</option><option>//form[@id='Extensions']/div[2]/div[2]/span/input</option><option>//span/input</option><option>css=#_qf_Extensions_next-bottom</option></datalist></td><td></td>
+</tr>
+<tr><td>click</td><td>//ul[@id='civicrm-menu']/li[10]<datalist><option>//ul[@id='civicrm-menu']/li[10]</option><option>//body/ul/li[10]</option><option>css=li.menumain.crm-Administer.activetarget</option></datalist></td><td></td>
+</tr>
+<tr><td>click</td><td>link=Payment Processors<datalist><option>link=Payment Processors</option><option>//a[contains(text(),'Payment Processors')]</option><option>//div[@id='root-menu-div']/div[20]/ul/li[15]/div/a</option><option>//a[contains(@href, '/civicrm/admin/paymentProcessor?reset=1')]</option><option>//div[20]/ul/li[15]/div/a</option><option>css=li.active &gt; div.menu-item &gt; a</option></datalist></td><td></td>
+</tr>
+<tr><td>click</td><td>//a[@id='newPaymentProcessor']/span<datalist><option>//a[@id='newPaymentProcessor']/span</option><option>//div[3]/div[2]/div/div/a/span</option><option>css=#newPaymentProcessor &gt; span</option></datalist></td><td></td>
+</tr>
+<tr><td>click</td><td>//form[@id='PaymentProcessor']/div[3]/table/tbody/tr/td[2]<datalist><option>//form[@id='PaymentProcessor']/div[3]/table/tbody/tr/td[2]</option><option>//td[2]</option></datalist></td><td></td>
+</tr>
+<tr><td>click</td><td>id=payment_processor_type_id<datalist><option>id=payment_processor_type_id</option><option>name=payment_processor_type_id</option><option>//select[@id='payment_processor_type_id']</option><option>//form[@id='PaymentProcessor']/div[3]/table/tbody/tr/td[2]/select</option><option>//select</option><option>css=#payment_processor_type_id</option></datalist></td><td></td>
+</tr>
+<tr><td>select</td><td>id=payment_processor_type_id<datalist><option>id=payment_processor_type_id</option><option>name=payment_processor_type_id</option><option>//select[@id='payment_processor_type_id']</option><option>//form[@id='PaymentProcessor']/div[3]/table/tbody/tr/td[2]/select</option><option>//select</option><option>css=#payment_processor_type_id</option></datalist></td><td>label=Stripe</td>
+</tr>
+<tr><td>select</td><td>id=financial_account_id<datalist><option>id=financial_account_id</option><option>name=financial_account_id</option><option>//select[@id='financial_account_id']</option><option>//form[@id='PaymentProcessor']/div[3]/table/tbody/tr[4]/td[2]/select</option><option>//tr[4]/td[2]/select</option><option>css=#financial_account_id</option><option>xpath=(//option[@value='12'])</option></datalist></td><td>label=Payment Processor Account</td>
+</tr>
+<tr><td>click</td><td>id=name<datalist><option>id=name</option><option>name=name</option><option>//input[@id='name']</option><option>//form[@id='PaymentProcessor']/div[3]/table/tbody/tr[2]/td[2]/input</option><option>//td[2]/input</option><option>css=#name</option></datalist></td><td></td>
+</tr>
+<tr><td>type</td><td>id=name<datalist><option>id=name</option><option>name=name</option><option>//input[@id='name']</option><option>//form[@id='PaymentProcessor']/div[3]/table/tbody/tr[2]/td[2]/input</option><option>//td[2]/input</option><option>css=#name</option></datalist></td><td>Stripe Alternate</td>
+</tr>
+<tr><td>type</td><td>id=description<datalist><option>id=description</option><option>name=description</option><option>//input[@id='description']</option><option>//form[@id='PaymentProcessor']/div[3]/table/tbody/tr[3]/td[2]/input</option><option>//tr[3]/td[2]/input</option><option>css=#description</option></datalist></td><td>Stripe alternate Payment Processor</td>
+</tr>
+<tr><td>click</td><td>id=user_name<datalist><option>id=user_name</option><option>name=user_name</option><option>//input[@id='user_name']</option><option>//form[@id='PaymentProcessor']/div[3]/fieldset/table/tbody/tr/td[2]/input</option><option>//fieldset/table/tbody/tr/td[2]/input</option><option>css=#user_name</option></datalist></td><td></td>
+</tr>
+<tr><td>type</td><td>id=user_name<datalist><option>id=user_name</option><option>name=user_name</option><option>//input[@id='user_name']</option><option>//form[@id='PaymentProcessor']/div[3]/fieldset/table/tbody/tr/td[2]/input</option><option>//fieldset/table/tbody/tr/td[2]/input</option><option>css=#user_name</option></datalist></td><td>sk_test_TlGdeoi8e1EOPC3nvcJ4q5UZ</td>
+</tr>
+<tr><td>click</td><td>id=password<datalist><option>id=password</option><option>name=password</option><option>//input[@id='password']</option><option>//form[@id='PaymentProcessor']/div[3]/fieldset/table/tbody/tr[2]/td[2]/input</option><option>//fieldset/table/tbody/tr[2]/td[2]/input</option><option>css=#password</option></datalist></td><td></td>
+</tr>
+<tr><td>type</td><td>id=password<datalist><option>id=password</option><option>name=password</option><option>//input[@id='password']</option><option>//form[@id='PaymentProcessor']/div[3]/fieldset/table/tbody/tr[2]/td[2]/input</option><option>//fieldset/table/tbody/tr[2]/td[2]/input</option><option>css=#password</option></datalist></td><td>pk_test_k2hELLGpBLsOJr6jZ2z9RaYh</td>
+</tr>
+<tr><td>clickandWait</td><td>id=_qf_PaymentProcessor_next-bottom<datalist><option>id=_qf_PaymentProcessor_next-bottom</option><option>//input[@id='_qf_PaymentProcessor_next-bottom']</option><option>//form[@id='PaymentProcessor']/div[3]/fieldset[2]/div/span/input</option><option>//fieldset[2]/div/span/input</option><option>css=#_qf_PaymentProcessor_next-bottom</option></datalist></td><td></td>
+</tr>
+<tr><td>click</td><td>//a[@id='newPaymentProcessor']/span<datalist><option>//a[@id='newPaymentProcessor']/span</option><option>//div[3]/div[2]/div/div/a/span</option><option>css=#newPaymentProcessor &gt; span</option></datalist></td><td></td>
+</tr>
+<tr><td>click</td><td>id=payment_processor_type_id<datalist><option>id=payment_processor_type_id</option><option>name=payment_processor_type_id</option><option>//select[@id='payment_processor_type_id']</option><option>//form[@id='PaymentProcessor']/div[3]/table/tbody/tr/td[2]/select</option><option>//select</option><option>css=#payment_processor_type_id</option></datalist></td><td></td>
+</tr>
+<tr><td>select</td><td>id=payment_processor_type_id<datalist><option>id=payment_processor_type_id</option><option>name=payment_processor_type_id</option><option>//select[@id='payment_processor_type_id']</option><option>//form[@id='PaymentProcessor']/div[3]/table/tbody/tr/td[2]/select</option><option>//select</option><option>css=#payment_processor_type_id</option></datalist></td><td>label=Stripe</td>
+</tr>
+<tr><td>click</td><td>id=name<datalist><option>id=name</option><option>name=name</option><option>//input[@id='name']</option><option>//form[@id='PaymentProcessor']/div[3]/table/tbody/tr[2]/td[2]/input</option><option>//td[2]/input</option><option>css=#name</option></datalist></td><td></td>
+</tr>
+<tr><td>type</td><td>id=name<datalist><option>id=name</option><option>name=name</option><option>//input[@id='name']</option><option>//form[@id='PaymentProcessor']/div[3]/table/tbody/tr[2]/td[2]/input</option><option>//td[2]/input</option><option>css=#name</option></datalist></td><td>Stripe Default</td>
+</tr>
+<tr><td>type</td><td>id=description<datalist><option>id=description</option><option>name=description</option><option>//input[@id='description']</option><option>//form[@id='PaymentProcessor']/div[3]/table/tbody/tr[3]/td[2]/input</option><option>//tr[3]/td[2]/input</option><option>css=#description</option></datalist></td><td>Stripe Default</td>
+</tr>
+<tr><td>click</td><td>id=financial_account_id<datalist><option>id=financial_account_id</option><option>name=financial_account_id</option><option>//select[@id='financial_account_id']</option><option>//form[@id='PaymentProcessor']/div[3]/table/tbody/tr[4]/td[2]/select</option><option>//tr[4]/td[2]/select</option><option>css=#financial_account_id</option></datalist></td><td></td>
+</tr>
+<tr><td>select</td><td>id=financial_account_id<datalist><option>id=financial_account_id</option><option>name=financial_account_id</option><option>//select[@id='financial_account_id']</option><option>//form[@id='PaymentProcessor']/div[3]/table/tbody/tr[4]/td[2]/select</option><option>//tr[4]/td[2]/select</option><option>css=#financial_account_id</option></datalist></td><td>label=Accounts Receivable</td>
+</tr>
+<tr><td>click</td><td>id=user_name<datalist><option>id=user_name</option><option>name=user_name</option><option>//input[@id='user_name']</option><option>//form[@id='PaymentProcessor']/div[3]/fieldset/table/tbody/tr/td[2]/input</option><option>//fieldset/table/tbody/tr/td[2]/input</option><option>css=#user_name</option></datalist></td><td></td>
+</tr>
+<tr><td>type</td><td>id=user_name<datalist><option>id=user_name</option><option>name=user_name</option><option>//input[@id='user_name']</option><option>//form[@id='PaymentProcessor']/div[3]/fieldset/table/tbody/tr/td[2]/input</option><option>//fieldset/table/tbody/tr/td[2]/input</option><option>css=#user_name</option></datalist></td><td>sk_test_0f3Nja19AQvQvLczwI5lV021</td>
+</tr>
+<tr><td>click</td><td>id=password<datalist><option>id=password</option><option>name=password</option><option>//input[@id='password']</option><option>//form[@id='PaymentProcessor']/div[3]/fieldset/table/tbody/tr[2]/td[2]/input</option><option>//fieldset/table/tbody/tr[2]/td[2]/input</option><option>css=#password</option></datalist></td><td></td>
+</tr>
+<tr><td>type</td><td>id=password<datalist><option>id=password</option><option>name=password</option><option>//input[@id='password']</option><option>//form[@id='PaymentProcessor']/div[3]/fieldset/table/tbody/tr[2]/td[2]/input</option><option>//fieldset/table/tbody/tr[2]/td[2]/input</option><option>css=#password</option></datalist></td><td>pk_test_4Q4VmBJAjn93vENmkka8YWSD</td>
+</tr>
+<tr><td>click</td><td>id=_qf_PaymentProcessor_next-bottom<datalist><option>id=_qf_PaymentProcessor_next-bottom</option><option>//input[@id='_qf_PaymentProcessor_next-bottom']</option><option>//form[@id='PaymentProcessor']/div[3]/fieldset[2]/div/span/input</option><option>//fieldset[2]/div/span/input</option><option>css=#_qf_PaymentProcessor_next-bottom</option></datalist></td><td></td>
+</tr>
+</tbody></table>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">Offline Contribution, default PP</td></tr>
+</thead>
+<tbody>
+<tr><td>open</td><td>http://localhost:8001/civicrm/contact/view?reset=1&amp;cid=109&amp;selectedChild=contribute<datalist><option>http://localhost:8001/civicrm/admin/paymentProcessor?reset=1</option><option>http://localhost:8001/civicrm/contact/view?reset=1&amp;cid=109&amp;selectedChild=contribute</option></datalist></td><td></td>
+</tr>
+<tr><td>click</td><td>//form[@id='Search']/div[2]/div[2]/a[2]/span<datalist><option>//form[@id='Search']/div[2]/div[2]/a[2]/span</option><option>//a[2]/span</option></datalist></td><td></td>
+</tr>
+<tr><td>click</td><td>id=financial_type_id<datalist><option>id=financial_type_id</option><option>name=financial_type_id</option><option>//select[@id='financial_type_id']</option><option>//form[@id='Contribution']/div[3]/table/tbody/tr[2]/td[2]/select</option><option>//select</option><option>css=#financial_type_id</option></datalist></td><td></td>
+</tr>
+<tr><td>select</td><td>id=financial_type_id<datalist><option>id=financial_type_id</option><option>name=financial_type_id</option><option>//select[@id='financial_type_id']</option><option>//form[@id='Contribution']/div[3]/table/tbody/tr[2]/td[2]/select</option><option>//select</option><option>css=#financial_type_id</option></datalist></td><td>label=Donation</td>
+</tr>
+<tr><td>click</td><td>//option[@value='1']<datalist><option>//option[@value='1']</option><option>//select[@id='financial_type_id']/option[3]</option><option>//option[3]</option><option>css=option[value="1"]</option></datalist></td><td></td>
+</tr>
+<tr><td>click</td><td>id=total_amount<datalist><option>id=total_amount</option><option>name=total_amount</option><option>//input[@id='total_amount']</option><option>//span[@id='totalAmount']/input</option><option>//td[2]/span/input</option><option>css=#total_amount</option></datalist></td><td></td>
+</tr>
+<tr><td>type</td><td>id=total_amount<datalist><option>id=total_amount</option><option>name=total_amount</option><option>//input[@id='total_amount']</option><option>//span[@id='totalAmount']/input</option><option>//td[2]/span/input</option><option>css=#total_amount</option></datalist></td><td>10</td>
+</tr>
+<tr><td>click</td><td>id=credit_card_number<datalist><option>id=credit_card_number</option><option>name=credit_card_number</option><option>//input[@id='credit_card_number']</option><option>//div[@id='payment_information']/fieldset/div/div[2]/div[2]/input</option><option>//div/div[2]/div[2]/input</option><option>css=#credit_card_number</option></datalist></td><td></td>
+</tr>
+<tr><td>type</td><td>id=credit_card_number<datalist><option>id=credit_card_number</option><option>name=credit_card_number</option><option>//input[@id='credit_card_number']</option><option>//div[@id='payment_information']/fieldset/div/div[2]/div[2]/input</option><option>//div/div[2]/div[2]/input</option><option>css=#credit_card_number</option></datalist></td><td>4242424242424242</td>
+</tr>
+<tr><td>click</td><td>id=cvv2<datalist><option>id=cvv2</option><option>name=cvv2</option><option>//input[@id='cvv2']</option><option>//div[@id='payment_information']/fieldset/div/div[3]/div[2]/input</option><option>//div/div[3]/div[2]/input</option><option>css=#cvv2</option></datalist></td><td></td>
+</tr>
+<tr><td>type</td><td>id=cvv2<datalist><option>id=cvv2</option><option>name=cvv2</option><option>//input[@id='cvv2']</option><option>//div[@id='payment_information']/fieldset/div/div[3]/div[2]/input</option><option>//div/div[3]/div[2]/input</option><option>css=#cvv2</option></datalist></td><td>123</td>
+</tr>
+<tr><td>click</td><td>id=credit_card_exp_date_M<datalist><option>id=credit_card_exp_date_M</option><option>name=credit_card_exp_date[M]</option><option>//select[@id='credit_card_exp_date_M']</option><option>//div[@id='payment_information']/fieldset/div/div[4]/div[2]/select</option><option>//div[4]/div[2]/select</option><option>css=#credit_card_exp_date_M</option></datalist></td><td></td>
+</tr>
+<tr><td>select</td><td>id=credit_card_exp_date_M<datalist><option>id=credit_card_exp_date_M</option><option>name=credit_card_exp_date[M]</option><option>//select[@id='credit_card_exp_date_M']</option><option>//div[@id='payment_information']/fieldset/div/div[4]/div[2]/select</option><option>//div[4]/div[2]/select</option><option>css=#credit_card_exp_date_M</option></datalist></td><td>label=Dec</td>
+</tr>
+<tr><td>click</td><td>//option[@value='12']<datalist><option>//option[@value='12']</option><option>//select[@id='credit_card_exp_date_M']/option[13]</option><option>//option[13]</option><option>css=option[value="12"]</option></datalist></td><td></td>
+</tr>
+<tr><td>click</td><td>id=credit_card_exp_date_Y<datalist><option>id=credit_card_exp_date_Y</option><option>name=credit_card_exp_date[Y]</option><option>//select[@id='credit_card_exp_date_Y']</option><option>//div[@id='payment_information']/fieldset/div/div[4]/div[2]/select[2]</option><option>//select[2]</option><option>css=#credit_card_exp_date_Y</option></datalist></td><td></td>
+</tr>
+<tr><td>select</td><td>id=credit_card_exp_date_Y<datalist><option>id=credit_card_exp_date_Y</option><option>name=credit_card_exp_date[Y]</option><option>//select[@id='credit_card_exp_date_Y']</option><option>//div[@id='payment_information']/fieldset/div/div[4]/div[2]/select[2]</option><option>//select[2]</option><option>css=#credit_card_exp_date_Y</option></datalist></td><td>label=2027</td>
+</tr>
+<tr><td>click</td><td>//option[@value='2027']<datalist><option>//option[@value='2027']</option><option>//select[@id='credit_card_exp_date_Y']/option[11]</option><option>//select[2]/option[11]</option><option>css=option[value="2027"]</option></datalist></td><td></td>
+</tr>
+<tr><td>click</td><td>xpath=(//button[@type='button'][@data-identifier='_qf_Contribution_upload'])<datalist><option>xpath=(//button[@type='button'])[3]</option><option>//div[11]/div/button</option><option>css=div.ui-dialog-buttonset &gt; button.ui-button.ui-corner-all.ui-widget</option><option>xpath=(//button[@type='button'][@data-identifier='_qf_Contribution_upload'])</option></datalist></td><td></td>
+</tr>
+</tbody></table>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">Offline Contribution, alternative PP</td></tr>
+</thead>
+<tbody>
+<tr><td>open</td><td>http://localhost:8001/civicrm/contact/view?reset=1&amp;cid=109&amp;selectedChild=contribute<datalist><option>http://localhost:8001/civicrm/contact/view?reset=1&amp;cid=109&amp;selectedChild=contribute</option><option>http://localhost:8001/civicrm/admin/paymentProcessor?reset=1</option></datalist></td><td></td>
+</tr>
+<tr><td>click</td><td>//form[@id='Search']/div[2]/div[2]/a[2]/span<datalist><option>//form[@id='Search']/div[2]/div[2]/a[2]/span</option><option>//a[2]/span</option></datalist></td><td></td>
+</tr>
+<tr><td>click</td><td>id=financial_type_id<datalist><option>id=financial_type_id</option><option>name=financial_type_id</option><option>//select[@id='financial_type_id']</option><option>//form[@id='Contribution']/div[3]/table/tbody/tr[2]/td[2]/select</option><option>//select</option><option>css=#financial_type_id</option></datalist></td><td></td>
+</tr>
+<tr><td>select</td><td>id=financial_type_id<datalist><option>id=financial_type_id</option><option>name=financial_type_id</option><option>//select[@id='financial_type_id']</option><option>//form[@id='Contribution']/div[3]/table/tbody/tr[2]/td[2]/select</option><option>//select</option><option>css=#financial_type_id</option></datalist></td><td>label=Donation</td>
+</tr>
+<tr><td>click</td><td>//option[@value='1']<datalist><option>//option[@value='1']</option><option>//select[@id='financial_type_id']/option[3]</option><option>//option[3]</option><option>css=option[value="1"]</option></datalist></td><td></td>
+</tr>
+<tr><td>click</td><td>id=total_amount<datalist><option>id=total_amount</option><option>name=total_amount</option><option>//input[@id='total_amount']</option><option>//span[@id='totalAmount']/input</option><option>//td[2]/span/input</option><option>css=#total_amount</option></datalist></td><td></td>
+</tr>
+<tr><td>type</td><td>id=total_amount<datalist><option>id=total_amount</option><option>name=total_amount</option><option>//input[@id='total_amount']</option><option>//span[@id='totalAmount']/input</option><option>//td[2]/span/input</option><option>css=#total_amount</option></datalist></td><td>10</td>
+</tr>
+<tr><td>click</td><td>id=payment_processor_id<datalist><option>id=payment_processor_id</option><option>name=payment_processor_id</option><option>//select[@id='payment_processor_id']</option><option>//form[@id='Contribution']/div[3]/table/tbody/tr[10]/td[2]/select</option><option>//tr[10]/td[2]/select</option><option>css=#payment_processor_id</option></datalist></td><td></td>
+</tr>
+<tr><td>select</td><td>id=payment_processor_id<datalist><option>id=payment_processor_id</option><option>name=payment_processor_id</option><option>//select[@id='payment_processor_id']</option><option>//form[@id='Contribution']/div[3]/table/tbody/tr[10]/td[2]/select</option><option>//tr[10]/td[2]/select</option><option>css=#payment_processor_id</option></datalist></td><td>label=Stripe Alternate : Stripe alternate Payment Processor</td>
+</tr>
+<tr><td>pause</td><td>10000<datalist><option>id=credit_card_number</option><option>name=credit_card_number</option><option>//input[@id='credit_card_number']</option><option>//div[@id='payment_information']/fieldset/div/div[2]/div[2]/input</option><option>//div/div[2]/div[2]/input</option><option>css=#credit_card_number</option><option>5000</option><option>10000</option></datalist></td><td></td>
+</tr>
+<tr><td>click</td><td>id=credit_card_number<datalist><option>id=credit_card_number</option><option>name=credit_card_number</option><option>//input[@id='credit_card_number']</option><option>//div[@id='payment_information']/fieldset/div/div[2]/div[2]/input</option><option>//div/div[2]/div[2]/input</option><option>css=#credit_card_number</option></datalist></td><td></td>
+</tr>
+<tr><td>type</td><td>id=credit_card_number<datalist><option>id=credit_card_number</option><option>name=credit_card_number</option><option>//input[@id='credit_card_number']</option><option>//div[@id='payment_information']/fieldset/div/div[2]/div[2]/input</option><option>//div/div[2]/div[2]/input</option><option>css=#credit_card_number</option></datalist></td><td>4242424242424242</td>
+</tr>
+<tr><td>click</td><td>id=cvv2<datalist><option>id=cvv2</option><option>name=cvv2</option><option>//input[@id='cvv2']</option><option>//div[@id='payment_information']/fieldset/div/div[3]/div[2]/input</option><option>//div/div[3]/div[2]/input</option><option>css=#cvv2</option></datalist></td><td></td>
+</tr>
+<tr><td>type</td><td>id=cvv2<datalist><option>id=cvv2</option><option>name=cvv2</option><option>//input[@id='cvv2']</option><option>//div[@id='payment_information']/fieldset/div/div[3]/div[2]/input</option><option>//div/div[3]/div[2]/input</option><option>css=#cvv2</option></datalist></td><td>123</td>
+</tr>
+<tr><td>click</td><td>id=credit_card_exp_date_M<datalist><option>id=credit_card_exp_date_M</option><option>name=credit_card_exp_date[M]</option><option>//select[@id='credit_card_exp_date_M']</option><option>//div[@id='payment_information']/fieldset/div/div[4]/div[2]/select</option><option>//div[4]/div[2]/select</option><option>css=#credit_card_exp_date_M</option></datalist></td><td></td>
+</tr>
+<tr><td>select</td><td>id=credit_card_exp_date_M<datalist><option>id=credit_card_exp_date_M</option><option>name=credit_card_exp_date[M]</option><option>//select[@id='credit_card_exp_date_M']</option><option>//div[@id='payment_information']/fieldset/div/div[4]/div[2]/select</option><option>//div[4]/div[2]/select</option><option>css=#credit_card_exp_date_M</option></datalist></td><td>label=Dec</td>
+</tr>
+<tr><td>click</td><td>//option[@value='12']<datalist><option>//option[@value='12']</option><option>//select[@id='credit_card_exp_date_M']/option[13]</option><option>//option[13]</option><option>css=option[value="12"]</option></datalist></td><td></td>
+</tr>
+<tr><td>click</td><td>id=credit_card_exp_date_Y<datalist><option>id=credit_card_exp_date_Y</option><option>name=credit_card_exp_date[Y]</option><option>//select[@id='credit_card_exp_date_Y']</option><option>//div[@id='payment_information']/fieldset/div/div[4]/div[2]/select[2]</option><option>//select[2]</option><option>css=#credit_card_exp_date_Y</option></datalist></td><td></td>
+</tr>
+<tr><td>select</td><td>id=credit_card_exp_date_Y<datalist><option>id=credit_card_exp_date_Y</option><option>name=credit_card_exp_date[Y]</option><option>//select[@id='credit_card_exp_date_Y']</option><option>//div[@id='payment_information']/fieldset/div/div[4]/div[2]/select[2]</option><option>//select[2]</option><option>css=#credit_card_exp_date_Y</option></datalist></td><td>label=2027</td>
+</tr>
+<tr><td>click</td><td>//option[@value='2027']<datalist><option>//option[@value='2027']</option><option>//select[@id='credit_card_exp_date_Y']/option[11]</option><option>//select[2]/option[11]</option><option>css=option[value="2027"]</option></datalist></td><td></td>
+</tr>
+<tr><td>click</td><td>xpath=(//button[@type='button'][@data-identifier='_qf_Contribution_upload'])<datalist><option>xpath=(//button[@type='button'][@data-identifier='_qf_Contribution_upload'])</option><option>xpath=(//button[@type='button'])[3]</option><option>//div[11]/div/button</option><option>css=div.ui-dialog-buttonset &gt; button.ui-button.ui-corner-all.ui-widget</option></datalist></td><td></td>
+</tr>
+</tbody></table>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">Offline Membership, default PP</td></tr>
+</thead>
+<tbody>
+<tr><td>open</td><td>http://localhost:8001/civicrm/contact/view?reset=1&amp;cid=109&amp;selectedChild=member<datalist><option>http://localhost:8001/civicrm/contact/view?reset=1&amp;cid=109&amp;selectedChild=contribute</option><option>http://localhost:8001/civicrm/admin/paymentProcessor?reset=1</option><option>http://localhost:8001/civicrm/contact/view?reset=1&amp;cid=109&amp;selectedChild=member</option></datalist></td><td></td>
+</tr>
+<tr><td>click</td><td>//div[@id='ui-id-31']/div/div[2]/a[2]<datalist><option>//div[@id='ui-id-31']/div/div[2]/a[2]</option><option>xpath=(//a[contains(@href, '/civicrm/contact/view/membership?reset=1&amp;action=add&amp;cid=109&amp;context=membership&amp;mode=live')])[2]</option><option>//div[4]/div/div[2]/a[2]</option></datalist></td><td></td>
+</tr>
+<tr><td>click</td><td>id=membership_type_id_1<datalist><option>id=membership_type_id_1</option><option>name=membership_type_id[1]</option><option>//select[@id='membership_type_id_1']</option><option>//span[@id='mem_type_id']/select[2]</option><option>//select[2]</option><option>css=#membership_type_id_1</option></datalist></td><td></td>
+</tr>
+<tr><td>select</td><td>id=membership_type_id_1<datalist><option>id=membership_type_id_1</option><option>name=membership_type_id[1]</option><option>//select[@id='membership_type_id_1']</option><option>//span[@id='mem_type_id']/select[2]</option><option>//select[2]</option><option>css=#membership_type_id_1</option></datalist></td><td>label=General</td>
+</tr>
+<tr><td>click</td><td>id=financial_type_id<datalist><option>id=financial_type_id</option><option>name=financial_type_id</option><option>//select[@id='financial_type_id']</option><option>//form[@id='Contribution']/div[3]/table/tbody/tr[2]/td[2]/select</option><option>//select</option><option>css=#financial_type_id</option></datalist></td><td></td>
+</tr>
+<tr><td>select</td><td>id=financial_type_id<datalist><option>id=financial_type_id</option><option>name=financial_type_id</option><option>//select[@id='financial_type_id']</option><option>//form[@id='Contribution']/div[3]/table/tbody/tr[2]/td[2]/select</option><option>//select</option><option>css=#financial_type_id</option></datalist></td><td>label=Donation</td>
+</tr>
+<tr><td>click</td><td>//option[@value='1']<datalist><option>//option[@value='1']</option><option>//select[@id='financial_type_id']/option[3]</option><option>//option[3]</option><option>css=option[value="1"]</option></datalist></td><td></td>
+</tr>
+<tr><td>click</td><td>id=total_amount<datalist><option>id=total_amount</option><option>name=total_amount</option><option>//input[@id='total_amount']</option><option>//span[@id='totalAmount']/input</option><option>//td[2]/span/input</option><option>css=#total_amount</option></datalist></td><td></td>
+</tr>
+<tr><td>type</td><td>id=total_amount<datalist><option>id=total_amount</option><option>name=total_amount</option><option>//input[@id='total_amount']</option><option>//span[@id='totalAmount']/input</option><option>//td[2]/span/input</option><option>css=#total_amount</option></datalist></td><td>10</td>
+</tr>
+<tr><td>click</td><td>id=credit_card_number<datalist><option>id=credit_card_number</option><option>name=credit_card_number</option><option>//input[@id='credit_card_number']</option><option>//div[@id='payment_information']/fieldset/div/div[2]/div[2]/input</option><option>//div/div[2]/div[2]/input</option><option>css=#credit_card_number</option></datalist></td><td></td>
+</tr>
+<tr><td>type</td><td>id=credit_card_number<datalist><option>id=credit_card_number</option><option>name=credit_card_number</option><option>//input[@id='credit_card_number']</option><option>//div[@id='payment_information']/fieldset/div/div[2]/div[2]/input</option><option>//div/div[2]/div[2]/input</option><option>css=#credit_card_number</option></datalist></td><td>4242424242424242</td>
+</tr>
+<tr><td>click</td><td>id=cvv2<datalist><option>id=cvv2</option><option>name=cvv2</option><option>//input[@id='cvv2']</option><option>//div[@id='payment_information']/fieldset/div/div[3]/div[2]/input</option><option>//div/div[3]/div[2]/input</option><option>css=#cvv2</option></datalist></td><td></td>
+</tr>
+<tr><td>type</td><td>id=cvv2<datalist><option>id=cvv2</option><option>name=cvv2</option><option>//input[@id='cvv2']</option><option>//div[@id='payment_information']/fieldset/div/div[3]/div[2]/input</option><option>//div/div[3]/div[2]/input</option><option>css=#cvv2</option></datalist></td><td>123</td>
+</tr>
+<tr><td>click</td><td>id=credit_card_exp_date_M<datalist><option>id=credit_card_exp_date_M</option><option>name=credit_card_exp_date[M]</option><option>//select[@id='credit_card_exp_date_M']</option><option>//div[@id='payment_information']/fieldset/div/div[4]/div[2]/select</option><option>//div[4]/div[2]/select</option><option>css=#credit_card_exp_date_M</option></datalist></td><td></td>
+</tr>
+<tr><td>select</td><td>id=credit_card_exp_date_M<datalist><option>id=credit_card_exp_date_M</option><option>name=credit_card_exp_date[M]</option><option>//select[@id='credit_card_exp_date_M']</option><option>//div[@id='payment_information']/fieldset/div/div[4]/div[2]/select</option><option>//div[4]/div[2]/select</option><option>css=#credit_card_exp_date_M</option></datalist></td><td>label=Dec</td>
+</tr>
+<tr><td>click</td><td>//option[@value='12']<datalist><option>//option[@value='12']</option><option>//select[@id='credit_card_exp_date_M']/option[13]</option><option>//option[13]</option><option>css=option[value="12"]</option></datalist></td><td></td>
+</tr>
+<tr><td>click</td><td>id=credit_card_exp_date_Y<datalist><option>id=credit_card_exp_date_Y</option><option>name=credit_card_exp_date[Y]</option><option>//select[@id='credit_card_exp_date_Y']</option><option>//div[@id='payment_information']/fieldset/div/div[4]/div[2]/select[2]</option><option>//select[2]</option><option>css=#credit_card_exp_date_Y</option></datalist></td><td></td>
+</tr>
+<tr><td>select</td><td>id=credit_card_exp_date_Y<datalist><option>id=credit_card_exp_date_Y</option><option>name=credit_card_exp_date[Y]</option><option>//select[@id='credit_card_exp_date_Y']</option><option>//div[@id='payment_information']/fieldset/div/div[4]/div[2]/select[2]</option><option>//select[2]</option><option>css=#credit_card_exp_date_Y</option></datalist></td><td>label=2027</td>
+</tr>
+<tr><td>click</td><td>//option[@value='2027']<datalist><option>//option[@value='2027']</option><option>//select[@id='credit_card_exp_date_Y']/option[11]</option><option>//select[2]/option[11]</option><option>css=option[value="2027"]</option></datalist></td><td></td>
+</tr>
+<tr><td>click</td><td>xpath=(//button[@type='button'][@data-identifier='_qf_Membership_upload'])<datalist><option>xpath=(//button[@type='button'][@data-identifier='_qf_Contribution_upload'])</option><option>xpath=(//button[@type='button'])[3]</option><option>//div[11]/div/button</option><option>css=div.ui-dialog-buttonset &gt; button.ui-button.ui-corner-all.ui-widget</option><option>xpath=(//button[@type='button'][@data-identifier='_qf_Membership_upload'])</option></datalist></td><td></td>
+</tr>
+</tbody></table>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">Offline Membership, alternate PP</td></tr>
+</thead>
+<tbody>
+<tr><td>open</td><td>http://localhost:8001/civicrm/contact/view?reset=1&amp;cid=109&amp;selectedChild=member<datalist><option>http://localhost:8001/civicrm/contact/view?reset=1&amp;cid=109&amp;selectedChild=member</option><option>http://localhost:8001/civicrm/contact/view?reset=1&amp;cid=109&amp;selectedChild=contribute</option><option>http://localhost:8001/civicrm/admin/paymentProcessor?reset=1</option></datalist></td><td></td>
+</tr>
+<tr><td>click</td><td>//div[@id='ui-id-31']/div/div[2]/a[2]<datalist><option>//div[@id='ui-id-31']/div/div[2]/a[2]</option><option>xpath=(//a[contains(@href, '/civicrm/contact/view/membership?reset=1&amp;action=add&amp;cid=109&amp;context=membership&amp;mode=live')])[2]</option><option>//div[4]/div/div[2]/a[2]</option></datalist></td><td></td>
+</tr>
+<tr><td>click</td><td>id=membership_type_id_1<datalist><option>id=membership_type_id_1</option><option>name=membership_type_id[1]</option><option>//select[@id='membership_type_id_1']</option><option>//span[@id='mem_type_id']/select[2]</option><option>//select[2]</option><option>css=#membership_type_id_1</option></datalist></td><td></td>
+</tr>
+<tr><td>select</td><td>id=membership_type_id_1<datalist><option>id=membership_type_id_1</option><option>name=membership_type_id[1]</option><option>//select[@id='membership_type_id_1']</option><option>//span[@id='mem_type_id']/select[2]</option><option>//select[2]</option><option>css=#membership_type_id_1</option></datalist></td><td>label=Student</td>
+</tr>
+<tr><td>click</td><td>id=financial_type_id<datalist><option>id=financial_type_id</option><option>name=financial_type_id</option><option>//select[@id='financial_type_id']</option><option>//form[@id='Contribution']/div[3]/table/tbody/tr[2]/td[2]/select</option><option>//select</option><option>css=#financial_type_id</option></datalist></td><td></td>
+</tr>
+<tr><td>select</td><td>id=financial_type_id<datalist><option>id=financial_type_id</option><option>name=financial_type_id</option><option>//select[@id='financial_type_id']</option><option>//form[@id='Contribution']/div[3]/table/tbody/tr[2]/td[2]/select</option><option>//select</option><option>css=#financial_type_id</option></datalist></td><td>label=Donation</td>
+</tr>
+<tr><td>click</td><td>//option[@value='1']<datalist><option>//option[@value='1']</option><option>//select[@id='financial_type_id']/option[3]</option><option>//option[3]</option><option>css=option[value="1"]</option></datalist></td><td></td>
+</tr>
+<tr><td>click</td><td>id=total_amount<datalist><option>id=total_amount</option><option>name=total_amount</option><option>//input[@id='total_amount']</option><option>//span[@id='totalAmount']/input</option><option>//td[2]/span/input</option><option>css=#total_amount</option></datalist></td><td></td>
+</tr>
+<tr><td>type</td><td>id=total_amount<datalist><option>id=total_amount</option><option>name=total_amount</option><option>//input[@id='total_amount']</option><option>//span[@id='totalAmount']/input</option><option>//td[2]/span/input</option><option>css=#total_amount</option></datalist></td><td>10</td>
+</tr>
+<tr><td>click</td><td>id=payment_processor_id<datalist><option>id=payment_processor_id</option><option>name=payment_processor_id</option><option>//select[@id='payment_processor_id']</option><option>//form[@id='Contribution']/div[3]/table/tbody/tr[10]/td[2]/select</option><option>//tr[10]/td[2]/select</option><option>css=#payment_processor_id</option></datalist></td><td></td>
+</tr>
+<tr><td>select</td><td>id=payment_processor_id<datalist><option>id=payment_processor_id</option><option>name=payment_processor_id</option><option>//select[@id='payment_processor_id']</option><option>//form[@id='Contribution']/div[3]/table/tbody/tr[10]/td[2]/select</option><option>//tr[10]/td[2]/select</option><option>css=#payment_processor_id</option></datalist></td><td>label=Stripe Alternate : Stripe alternate Payment Processor</td>
+</tr>
+<tr><td>pause</td><td>10000<datalist><option>10000</option><option>id=credit_card_number</option><option>name=credit_card_number</option><option>//input[@id='credit_card_number']</option><option>//div[@id='payment_information']/fieldset/div/div[2]/div[2]/input</option><option>//div/div[2]/div[2]/input</option><option>css=#credit_card_number</option><option>5000</option></datalist></td><td></td>
+</tr>
+<tr><td>click</td><td>id=credit_card_number<datalist><option>id=credit_card_number</option><option>name=credit_card_number</option><option>//input[@id='credit_card_number']</option><option>//div[@id='payment_information']/fieldset/div/div[2]/div[2]/input</option><option>//div/div[2]/div[2]/input</option><option>css=#credit_card_number</option></datalist></td><td></td>
+</tr>
+<tr><td>type</td><td>id=credit_card_number<datalist><option>id=credit_card_number</option><option>name=credit_card_number</option><option>//input[@id='credit_card_number']</option><option>//div[@id='payment_information']/fieldset/div/div[2]/div[2]/input</option><option>//div/div[2]/div[2]/input</option><option>css=#credit_card_number</option></datalist></td><td>4242424242424242</td>
+</tr>
+<tr><td>click</td><td>id=cvv2<datalist><option>id=cvv2</option><option>name=cvv2</option><option>//input[@id='cvv2']</option><option>//div[@id='payment_information']/fieldset/div/div[3]/div[2]/input</option><option>//div/div[3]/div[2]/input</option><option>css=#cvv2</option></datalist></td><td></td>
+</tr>
+<tr><td>type</td><td>id=cvv2<datalist><option>id=cvv2</option><option>name=cvv2</option><option>//input[@id='cvv2']</option><option>//div[@id='payment_information']/fieldset/div/div[3]/div[2]/input</option><option>//div/div[3]/div[2]/input</option><option>css=#cvv2</option></datalist></td><td>123</td>
+</tr>
+<tr><td>click</td><td>id=credit_card_exp_date_M<datalist><option>id=credit_card_exp_date_M</option><option>name=credit_card_exp_date[M]</option><option>//select[@id='credit_card_exp_date_M']</option><option>//div[@id='payment_information']/fieldset/div/div[4]/div[2]/select</option><option>//div[4]/div[2]/select</option><option>css=#credit_card_exp_date_M</option></datalist></td><td></td>
+</tr>
+<tr><td>select</td><td>id=credit_card_exp_date_M<datalist><option>id=credit_card_exp_date_M</option><option>name=credit_card_exp_date[M]</option><option>//select[@id='credit_card_exp_date_M']</option><option>//div[@id='payment_information']/fieldset/div/div[4]/div[2]/select</option><option>//div[4]/div[2]/select</option><option>css=#credit_card_exp_date_M</option></datalist></td><td>label=Dec</td>
+</tr>
+<tr><td>click</td><td>//option[@value='12']<datalist><option>//option[@value='12']</option><option>//select[@id='credit_card_exp_date_M']/option[13]</option><option>//option[13]</option><option>css=option[value="12"]</option></datalist></td><td></td>
+</tr>
+<tr><td>click</td><td>id=credit_card_exp_date_Y<datalist><option>id=credit_card_exp_date_Y</option><option>name=credit_card_exp_date[Y]</option><option>//select[@id='credit_card_exp_date_Y']</option><option>//div[@id='payment_information']/fieldset/div/div[4]/div[2]/select[2]</option><option>//select[2]</option><option>css=#credit_card_exp_date_Y</option></datalist></td><td></td>
+</tr>
+<tr><td>select</td><td>id=credit_card_exp_date_Y<datalist><option>id=credit_card_exp_date_Y</option><option>name=credit_card_exp_date[Y]</option><option>//select[@id='credit_card_exp_date_Y']</option><option>//div[@id='payment_information']/fieldset/div/div[4]/div[2]/select[2]</option><option>//select[2]</option><option>css=#credit_card_exp_date_Y</option></datalist></td><td>label=2027</td>
+</tr>
+<tr><td>click</td><td>//option[@value='2027']<datalist><option>//option[@value='2027']</option><option>//select[@id='credit_card_exp_date_Y']/option[11]</option><option>//select[2]/option[11]</option><option>css=option[value="2027"]</option></datalist></td><td></td>
+</tr>
+<tr><td>click</td><td>xpath=(//button[@type='button'][@data-identifier='_qf_Membership_upload'])<datalist><option>xpath=(//button[@type='button'][@data-identifier='_qf_Membership_upload'])</option><option>xpath=(//button[@type='button'][@data-identifier='_qf_Contribution_upload'])</option><option>xpath=(//button[@type='button'])[3]</option><option>//div[11]/div/button</option><option>css=div.ui-dialog-buttonset &gt; button.ui-button.ui-corner-all.ui-widget</option></datalist></td><td></td>
+</tr>
+</tbody></table>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">Offline Participant, default PP</td></tr>
+</thead>
+<tbody>
+<tr><td>open</td><td>http://localhost:8001/civicrm/contact/view?reset=1&amp;cid=109&amp;selectedChild=participant<datalist><option>http://localhost:8001/civicrm/contact/view?reset=1&amp;cid=109&amp;selectedChild=participant</option><option>http://localhost:8001/civicrm/contact/view?reset=1&amp;cid=109&amp;selectedChild=member</option><option>http://localhost:8001/civicrm/contact/view?reset=1&amp;cid=109&amp;selectedChild=contribute</option><option>http://localhost:8001/civicrm/admin/paymentProcessor?reset=1</option></datalist></td><td></td>
+</tr>
+<tr><td>click</td><td>//form[@id='Search']/div[3]/a[2]<datalist><option>//form[@id='Search']/div[3]/a[2]</option><option>xpath=(//a[contains(@href, '/civicrm/contact/view/participant?reset=1&amp;action=add&amp;cid=109&amp;context=participant&amp;mode=live')])[2]</option><option>//div[3]/a[2]</option></datalist></td><td></td>
+</tr>
+<tr><td>mouseDown</td><td>css=#s2id_event_id a.select2-choice<datalist><option>css=#s2id_event_id a.select2-choice</option><option>id=membership_type_id_1</option><option>name=membership_type_id[1]</option><option>//select[@id='membership_type_id_1']</option><option>//span[@id='mem_type_id']/select[2]</option><option>//select[2]</option><option>css=#membership_type_id_1</option></datalist></td><td></td>
+</tr>
+<tr><td>waitForTextPresent</td><td>Rain-forest<datalist><option>css=.select2-results</option><option>Rain-forest</option></datalist></td><td></td>
+</tr>
+<tr><td>mouseUp</td><td>css=.select2-result-label:contains('Fall')<datalist><option>css=.select2-result-label:contains('Rain-forest')</option><option>css=.select2-result-label:contains('Fall')</option></datalist></td><td></td>
+</tr>
+<tr><td>click</td><td>id=credit_card_number<datalist><option>id=credit_card_number</option><option>name=credit_card_number</option><option>//input[@id='credit_card_number']</option><option>//div[@id='payment_information']/fieldset/div/div[2]/div[2]/input</option><option>//div/div[2]/div[2]/input</option><option>css=#credit_card_number</option></datalist></td><td></td>
+</tr>
+<tr><td>type</td><td>id=credit_card_number<datalist><option>id=credit_card_number</option><option>name=credit_card_number</option><option>//input[@id='credit_card_number']</option><option>//div[@id='payment_information']/fieldset/div/div[2]/div[2]/input</option><option>//div/div[2]/div[2]/input</option><option>css=#credit_card_number</option></datalist></td><td>4242424242424242</td>
+</tr>
+<tr><td>click</td><td>id=cvv2<datalist><option>id=cvv2</option><option>name=cvv2</option><option>//input[@id='cvv2']</option><option>//div[@id='payment_information']/fieldset/div/div[3]/div[2]/input</option><option>//div/div[3]/div[2]/input</option><option>css=#cvv2</option></datalist></td><td></td>
+</tr>
+<tr><td>type</td><td>id=cvv2<datalist><option>id=cvv2</option><option>name=cvv2</option><option>//input[@id='cvv2']</option><option>//div[@id='payment_information']/fieldset/div/div[3]/div[2]/input</option><option>//div/div[3]/div[2]/input</option><option>css=#cvv2</option></datalist></td><td>123</td>
+</tr>
+<tr><td>click</td><td>id=credit_card_exp_date_M<datalist><option>id=credit_card_exp_date_M</option><option>name=credit_card_exp_date[M]</option><option>//select[@id='credit_card_exp_date_M']</option><option>//div[@id='payment_information']/fieldset/div/div[4]/div[2]/select</option><option>//div[4]/div[2]/select</option><option>css=#credit_card_exp_date_M</option></datalist></td><td></td>
+</tr>
+<tr><td>select</td><td>id=credit_card_exp_date_M<datalist><option>id=credit_card_exp_date_M</option><option>name=credit_card_exp_date[M]</option><option>//select[@id='credit_card_exp_date_M']</option><option>//div[@id='payment_information']/fieldset/div/div[4]/div[2]/select</option><option>//div[4]/div[2]/select</option><option>css=#credit_card_exp_date_M</option></datalist></td><td>label=Dec</td>
+</tr>
+<tr><td>click</td><td>//option[@value='12']<datalist><option>//option[@value='12']</option><option>//select[@id='credit_card_exp_date_M']/option[13]</option><option>//option[13]</option><option>css=option[value="12"]</option></datalist></td><td></td>
+</tr>
+<tr><td>click</td><td>id=credit_card_exp_date_Y<datalist><option>id=credit_card_exp_date_Y</option><option>name=credit_card_exp_date[Y]</option><option>//select[@id='credit_card_exp_date_Y']</option><option>//div[@id='payment_information']/fieldset/div/div[4]/div[2]/select[2]</option><option>//select[2]</option><option>css=#credit_card_exp_date_Y</option></datalist></td><td></td>
+</tr>
+<tr><td>select</td><td>id=credit_card_exp_date_Y<datalist><option>id=credit_card_exp_date_Y</option><option>name=credit_card_exp_date[Y]</option><option>//select[@id='credit_card_exp_date_Y']</option><option>//div[@id='payment_information']/fieldset/div/div[4]/div[2]/select[2]</option><option>//select[2]</option><option>css=#credit_card_exp_date_Y</option></datalist></td><td>label=2027</td>
+</tr>
+<tr><td>click</td><td>//option[@value='2027']<datalist><option>//option[@value='2027']</option><option>//select[@id='credit_card_exp_date_Y']/option[11]</option><option>//select[2]/option[11]</option><option>css=option[value="2027"]</option></datalist></td><td></td>
+</tr>
+<tr><td>click</td><td>xpath=(//button[@type='button'][@data-identifier='_qf_Participant_upload'])<datalist><option>xpath=(//button[@type='button'][@data-identifier='_qf_Participant_upload'])</option><option>xpath=(//button[@type='button'][@data-identifier='_qf_Membership_upload'])</option><option>xpath=(//button[@type='button'][@data-identifier='_qf_Contribution_upload'])</option><option>xpath=(//button[@type='button'])[3]</option><option>//div[11]/div/button</option><option>css=div.ui-dialog-buttonset &gt; button.ui-button.ui-corner-all.ui-widget</option></datalist></td><td></td>
+</tr>
+</tbody></table>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">Offline Participant, alternate PP</td></tr>
+</thead>
+<tbody>
+<tr><td>open</td><td>http://localhost:8001/civicrm/contact/view?reset=1&amp;cid=109&amp;selectedChild=participant<datalist><option>http://localhost:8001/civicrm/contact/view?reset=1&amp;cid=109&amp;selectedChild=member</option><option>http://localhost:8001/civicrm/contact/view?reset=1&amp;cid=109&amp;selectedChild=contribute</option><option>http://localhost:8001/civicrm/admin/paymentProcessor?reset=1</option><option>http://localhost:8001/civicrm/contact/view?reset=1&amp;cid=109&amp;selectedChild=participant</option></datalist></td><td></td>
+</tr>
+<tr><td>click</td><td>//form[@id='Search']/div[3]/a[2]<datalist><option>//form[@id='Search']/div[3]/a[2]</option><option>xpath=(//a[contains(@href, '/civicrm/contact/view/participant?reset=1&amp;action=add&amp;cid=109&amp;context=participant&amp;mode=live')])[2]</option><option>//div[3]/a[2]</option></datalist></td><td></td>
+</tr>
+<tr><td>mouseDown</td><td>css=#s2id_event_id a.select2-choice<datalist><option>css=#s2id_event_id a.select2-choice</option><option>id=membership_type_id_1</option><option>name=membership_type_id[1]</option><option>//select[@id='membership_type_id_1']</option><option>//span[@id='mem_type_id']/select[2]</option><option>//select[2]</option><option>css=#membership_type_id_1</option></datalist></td><td></td>
+</tr>
+<tr><td>waitForTextPresent</td><td>Rain-forest<datalist><option>Rain-forest</option><option>css=.select2-results</option></datalist></td><td></td>
+</tr>
+<tr><td>mouseUp</td><td>css=.select2-result-label:contains('Rain-forest')<datalist><option>css=.select2-result-label:contains('Rain-forest')</option></datalist></td><td></td>
+</tr>
+<tr><td>click</td><td>id=payment_processor_id<datalist><option>id=payment_processor_id</option><option>name=payment_processor_id</option><option>//select[@id='payment_processor_id']</option><option>//form[@id='Contribution']/div[3]/table/tbody/tr[10]/td[2]/select</option><option>//tr[10]/td[2]/select</option><option>css=#payment_processor_id</option></datalist></td><td></td>
+</tr>
+<tr><td>select</td><td>id=payment_processor_id<datalist><option>id=payment_processor_id</option><option>name=payment_processor_id</option><option>//select[@id='payment_processor_id']</option><option>//form[@id='Contribution']/div[3]/table/tbody/tr[10]/td[2]/select</option><option>//tr[10]/td[2]/select</option><option>css=#payment_processor_id</option></datalist></td><td>label=Stripe Alternate : Stripe alternate Payment Processor</td>
+</tr>
+<tr><td>pause</td><td>10000<datalist><option>10000</option><option>id=credit_card_number</option><option>name=credit_card_number</option><option>//input[@id='credit_card_number']</option><option>//div[@id='payment_information']/fieldset/div/div[2]/div[2]/input</option><option>//div/div[2]/div[2]/input</option><option>css=#credit_card_number</option><option>5000</option></datalist></td><td></td>
+</tr>
+<tr><td>click</td><td>id=credit_card_number<datalist><option>id=credit_card_number</option><option>name=credit_card_number</option><option>//input[@id='credit_card_number']</option><option>//div[@id='payment_information']/fieldset/div/div[2]/div[2]/input</option><option>//div/div[2]/div[2]/input</option><option>css=#credit_card_number</option></datalist></td><td></td>
+</tr>
+<tr><td>type</td><td>id=credit_card_number<datalist><option>id=credit_card_number</option><option>name=credit_card_number</option><option>//input[@id='credit_card_number']</option><option>//div[@id='payment_information']/fieldset/div/div[2]/div[2]/input</option><option>//div/div[2]/div[2]/input</option><option>css=#credit_card_number</option></datalist></td><td>4242424242424242</td>
+</tr>
+<tr><td>click</td><td>id=cvv2<datalist><option>id=cvv2</option><option>name=cvv2</option><option>//input[@id='cvv2']</option><option>//div[@id='payment_information']/fieldset/div/div[3]/div[2]/input</option><option>//div/div[3]/div[2]/input</option><option>css=#cvv2</option></datalist></td><td></td>
+</tr>
+<tr><td>type</td><td>id=cvv2<datalist><option>id=cvv2</option><option>name=cvv2</option><option>//input[@id='cvv2']</option><option>//div[@id='payment_information']/fieldset/div/div[3]/div[2]/input</option><option>//div/div[3]/div[2]/input</option><option>css=#cvv2</option></datalist></td><td>123</td>
+</tr>
+<tr><td>click</td><td>id=credit_card_exp_date_M<datalist><option>id=credit_card_exp_date_M</option><option>name=credit_card_exp_date[M]</option><option>//select[@id='credit_card_exp_date_M']</option><option>//div[@id='payment_information']/fieldset/div/div[4]/div[2]/select</option><option>//div[4]/div[2]/select</option><option>css=#credit_card_exp_date_M</option></datalist></td><td></td>
+</tr>
+<tr><td>select</td><td>id=credit_card_exp_date_M<datalist><option>id=credit_card_exp_date_M</option><option>name=credit_card_exp_date[M]</option><option>//select[@id='credit_card_exp_date_M']</option><option>//div[@id='payment_information']/fieldset/div/div[4]/div[2]/select</option><option>//div[4]/div[2]/select</option><option>css=#credit_card_exp_date_M</option></datalist></td><td>label=Dec</td>
+</tr>
+<tr><td>click</td><td>//option[@value='12']<datalist><option>//option[@value='12']</option><option>//select[@id='credit_card_exp_date_M']/option[13]</option><option>//option[13]</option><option>css=option[value="12"]</option></datalist></td><td></td>
+</tr>
+<tr><td>click</td><td>id=credit_card_exp_date_Y<datalist><option>id=credit_card_exp_date_Y</option><option>name=credit_card_exp_date[Y]</option><option>//select[@id='credit_card_exp_date_Y']</option><option>//div[@id='payment_information']/fieldset/div/div[4]/div[2]/select[2]</option><option>//select[2]</option><option>css=#credit_card_exp_date_Y</option></datalist></td><td></td>
+</tr>
+<tr><td>select</td><td>id=credit_card_exp_date_Y<datalist><option>id=credit_card_exp_date_Y</option><option>name=credit_card_exp_date[Y]</option><option>//select[@id='credit_card_exp_date_Y']</option><option>//div[@id='payment_information']/fieldset/div/div[4]/div[2]/select[2]</option><option>//select[2]</option><option>css=#credit_card_exp_date_Y</option></datalist></td><td>label=2027</td>
+</tr>
+<tr><td>click</td><td>//option[@value='2027']<datalist><option>//option[@value='2027']</option><option>//select[@id='credit_card_exp_date_Y']/option[11]</option><option>//select[2]/option[11]</option><option>css=option[value="2027"]</option></datalist></td><td></td>
+</tr>
+<tr><td>click</td><td>xpath=(//button[@type='button'][@data-identifier='_qf_Participant_upload'])<datalist><option>xpath=(//button[@type='button'][@data-identifier='_qf_Membership_upload'])</option><option>xpath=(//button[@type='button'][@data-identifier='_qf_Contribution_upload'])</option><option>xpath=(//button[@type='button'])[3]</option><option>//div[11]/div/button</option><option>css=div.ui-dialog-buttonset &gt; button.ui-button.ui-corner-all.ui-widget</option><option>xpath=(//button[@type='button'][@data-identifier='_qf_Participant_upload'])</option></datalist></td><td></td>
+</tr>
+</tbody></table>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">Setup Contribution page Stripe Default Only</td></tr>
+</thead>
+<tbody>
+<tr><td>open</td><td>http://localhost:8001/civicrm/admin/contribute/amount?reset=1&amp;action=update&amp;id=1<datalist><option>http://localhost:8001/civicrm/admin/contribute?reset=1</option><option>http://localhost:8001/civicrm/admin/contribute/amount?reset=1&amp;action=update&amp;id=1</option></datalist></td><td></td>
+</tr>
+<tr><td>check</td><td>id=payment_processor_5<datalist><option>id=payment_processor_5</option><option>name=payment_processor[5]</option><option>//input[@id='payment_processor_5']</option><option>//form[@id='Amount']/div[2]/table/tbody/tr[3]/td/input</option><option>//tr[3]/td/input</option><option>css=#payment_processor_5</option></datalist></td><td></td>
+</tr>
+<tr><td>uncheck</td><td>id=payment_processor_1<datalist><option>id=payment_processor_1</option><option>name=payment_processor[1]</option><option>//input[@id='payment_processor_1']</option><option>//form[@id='Amount']/div[2]/table/tbody/tr[3]/td/input[3]</option><option>//td/input[3]</option><option>css=#payment_processor_1</option></datalist></td><td></td>
+</tr>
+<tr><td>uncheck</td><td>id=payment_processor_3<datalist><option>id=payment_processor_1</option><option>name=payment_processor[1]</option><option>//input[@id='payment_processor_1']</option><option>//form[@id='Amount']/div[2]/table/tbody/tr[3]/td/input[3]</option><option>//td/input[3]</option><option>css=#payment_processor_1</option><option>id=payment_processor_3</option></datalist></td><td></td>
+</tr>
+<tr><td>uncheck</td><td>id=is_pay_later<datalist><option>id=payment_processor_1</option><option>name=payment_processor[1]</option><option>//input[@id='payment_processor_1']</option><option>//form[@id='Amount']/div[2]/table/tbody/tr[3]/td/input[3]</option><option>//td/input[3]</option><option>css=#payment_processor_1</option><option>id=is_pay_later</option></datalist></td><td></td>
+</tr>
+<tr><td>click</td><td>id=_qf_Amount_next-top<datalist><option>id=_qf_Amount_next-top</option><option>name=_qf_Amount_next</option><option>//input[@id='_qf_Amount_next-top']</option><option>//form[@id='Amount']/div[2]/div[2]/span/input</option><option>//span/input</option><option>css=#_qf_Amount_next-top</option></datalist></td><td></td>
+</tr>
+</tbody></table>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">Online Contribution Stripe Default Only</td></tr>
+</thead>
+<tbody>
+<tr><td>open</td><td>http://localhost:8001/civicrm/contribute/transact?reset=1&amp;id=1<datalist><option>http://localhost:8001/civicrm/admin/contribute?reset=1</option><option>http://localhost:8001/civicrm/contribute/transact?reset=1&amp;id=1</option></datalist></td><td></td>
+</tr>
+<tr><td>selectWindow</td><td>win_ser_1<datalist><option>win_ser_1</option></datalist></td><td></td>
+</tr>
+<tr><td>click</td><td>id=credit_card_number<datalist><option>id=credit_card_number</option><option>name=credit_card_number</option><option>//input[@id='credit_card_number']</option><option>//div[@id='payment_information']/fieldset/div/div[2]/div[2]/input</option><option>//fieldset/div/div[2]/div[2]/input</option><option>css=#credit_card_number</option></datalist></td><td></td>
+</tr>
+<tr><td>type</td><td>id=credit_card_number<datalist><option>id=credit_card_number</option><option>name=credit_card_number</option><option>//input[@id='credit_card_number']</option><option>//div[@id='payment_information']/fieldset/div/div[2]/div[2]/input</option><option>//fieldset/div/div[2]/div[2]/input</option><option>css=#credit_card_number</option></datalist></td><td>4242424242424242</td>
+</tr>
+<tr><td>click</td><td>id=cvv2<datalist><option>id=cvv2</option><option>name=cvv2</option><option>//input[@id='cvv2']</option><option>//div[@id='payment_information']/fieldset/div/div[3]/div[2]/input</option><option>//div/div[3]/div[2]/input</option><option>css=#cvv2</option></datalist></td><td></td>
+</tr>
+<tr><td>type</td><td>id=cvv2<datalist><option>id=cvv2</option><option>name=cvv2</option><option>//input[@id='cvv2']</option><option>//div[@id='payment_information']/fieldset/div/div[3]/div[2]/input</option><option>//div/div[3]/div[2]/input</option><option>css=#cvv2</option></datalist></td><td>123</td>
+</tr>
+<tr><td>click</td><td>id=credit_card_exp_date_M<datalist><option>id=credit_card_exp_date_M</option><option>name=credit_card_exp_date[M]</option><option>//select[@id='credit_card_exp_date_M']</option><option>//div[@id='payment_information']/fieldset/div/div[4]/div[2]/select</option><option>//fieldset/div/div[4]/div[2]/select</option><option>css=#credit_card_exp_date_M</option></datalist></td><td></td>
+</tr>
+<tr><td>select</td><td>id=credit_card_exp_date_M<datalist><option>id=credit_card_exp_date_M</option><option>name=credit_card_exp_date[M]</option><option>//select[@id='credit_card_exp_date_M']</option><option>//div[@id='payment_information']/fieldset/div/div[4]/div[2]/select</option><option>//fieldset/div/div[4]/div[2]/select</option><option>css=#credit_card_exp_date_M</option></datalist></td><td>label=Dec</td>
+</tr>
+<tr><td>click</td><td>//option[@value='12']<datalist><option>//option[@value='12']</option><option>//select[@id='credit_card_exp_date_M']/option[13]</option><option>//option[13]</option><option>css=option[value="12"]</option></datalist></td><td></td>
+</tr>
+<tr><td>click</td><td>id=credit_card_exp_date_Y<datalist><option>id=credit_card_exp_date_Y</option><option>name=credit_card_exp_date[Y]</option><option>//select[@id='credit_card_exp_date_Y']</option><option>//div[@id='payment_information']/fieldset/div/div[4]/div[2]/select[2]</option><option>//select[2]</option><option>css=#credit_card_exp_date_Y</option></datalist></td><td></td>
+</tr>
+<tr><td>select</td><td>id=credit_card_exp_date_Y<datalist><option>id=credit_card_exp_date_Y</option><option>name=credit_card_exp_date[Y]</option><option>//select[@id='credit_card_exp_date_Y']</option><option>//div[@id='payment_information']/fieldset/div/div[4]/div[2]/select[2]</option><option>//select[2]</option><option>css=#credit_card_exp_date_Y</option></datalist></td><td>label=2028</td>
+</tr>
+<tr><td>click</td><td>//option[@value='2028']<datalist><option>//option[@value='2028']</option><option>//select[@id='credit_card_exp_date_Y']/option[12]</option><option>//select[2]/option[12]</option><option>css=option[value="2028"]</option></datalist></td><td></td>
+</tr>
+<tr><td>click</td><td>id=billing_first_name<datalist><option>id=billing_first_name</option><option>name=billing_first_name</option><option>//input[@id='billing_first_name']</option><option>//div[@id='payment_information']/fieldset[2]/div/div/div[2]/input</option><option>//fieldset[2]/div/div/div[2]/input</option><option>css=#billing_first_name</option></datalist></td><td></td>
+</tr>
+<tr><td>type</td><td>id=billing_first_name<datalist><option>id=billing_first_name</option><option>name=billing_first_name</option><option>//input[@id='billing_first_name']</option><option>//div[@id='payment_information']/fieldset[2]/div/div/div[2]/input</option><option>//fieldset[2]/div/div/div[2]/input</option><option>css=#billing_first_name</option></datalist></td><td>Joe</td>
+</tr>
+<tr><td>type</td><td>id=billing_last_name<datalist><option>id=billing_last_name</option><option>name=billing_last_name</option><option>//input[@id='billing_last_name']</option><option>//div[@id='payment_information']/fieldset[2]/div/div[3]/div[2]/input</option><option>//fieldset[2]/div/div[3]/div[2]/input</option><option>css=#billing_last_name</option></datalist></td><td>Joe</td>
+</tr>
+<tr><td>type</td><td>id=billing_street_address-5<datalist><option>id=billing_street_address-5</option><option>name=billing_street_address-5</option><option>//input[@id='billing_street_address-5']</option><option>//div[@id='payment_information']/fieldset[2]/div/div[4]/div[2]/input</option><option>//fieldset[2]/div/div[4]/div[2]/input</option><option>css=#billing_street_address-5</option></datalist></td><td>123</td>
+</tr>
+<tr><td>type</td><td>id=billing_city-5<datalist><option>id=billing_city-5</option><option>name=billing_city-5</option><option>//input[@id='billing_city-5']</option><option>//div[@id='payment_information']/fieldset[2]/div/div[5]/div[2]/input</option><option>//fieldset[2]/div/div[5]/div[2]/input</option><option>css=#billing_city-5</option></datalist></td><td>Joe</td>
+</tr>
+<tr><td>click</td><td>id=billing_postal_code-5<datalist><option>id=billing_postal_code-5</option><option>name=billing_postal_code-5</option><option>//input[@id='billing_postal_code-5']</option><option>//div[@id='payment_information']/fieldset[2]/div/div[8]/div[2]/input</option><option>//div[8]/div[2]/input</option><option>css=#billing_postal_code-5</option></datalist></td><td></td>
+</tr>
+<tr><td>type</td><td>id=billing_postal_code-5<datalist><option>id=billing_postal_code-5</option><option>name=billing_postal_code-5</option><option>//input[@id='billing_postal_code-5']</option><option>//div[@id='payment_information']/fieldset[2]/div/div[8]/div[2]/input</option><option>//div[8]/div[2]/input</option><option>css=#billing_postal_code-5</option></datalist></td><td>12345</td>
+</tr>
+<tr><td>clickAndWait</td><td>id=_qf_Main_upload-bottom<datalist><option>id=_qf_Main_upload-bottom</option><option>name=_qf_Main_upload</option><option>//input[@id='_qf_Main_upload-bottom']</option><option>//div[@id='crm-submit-buttons']/span/input</option><option>//div[12]/span/input</option><option>css=#_qf_Main_upload-bottom</option></datalist></td><td></td>
+</tr>
+<tr><td>click</td><td>id=_qf_Confirm_next-top<datalist><option>id=_qf_Confirm_next-top</option><option>name=_qf_Confirm_next</option><option>//input[@id='_qf_Confirm_next-top']</option><option>//div[@id='crm-submit-buttons']/span/input</option><option>//span/input</option><option>css=#_qf_Confirm_next-top</option></datalist></td><td></td>
+</tr>
+</tbody></table>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">Setup Contribution Page 2xStripe, Test proc</td></tr>
+</thead>
+<tbody>
+<tr><td>open</td><td>http://localhost:8001/civicrm/admin/contribute/amount?reset=1&amp;action=update&amp;id=1<datalist><option>http://localhost:8001/civicrm/admin/contribute/amount?reset=1&amp;action=update&amp;id=1</option><option>http://localhost:8001/civicrm/admin/contribute?reset=1</option></datalist></td><td></td>
+</tr>
+<tr><td>check</td><td>id=payment_processor_5<datalist><option>id=payment_processor_5</option><option>name=payment_processor[5]</option><option>//input[@id='payment_processor_5']</option><option>//form[@id='Amount']/div[2]/table/tbody/tr[3]/td/input</option><option>//tr[3]/td/input</option><option>css=#payment_processor_5</option></datalist></td><td></td>
+</tr>
+<tr><td>check</td><td>id=payment_processor_1<datalist><option>id=payment_processor_1</option><option>name=payment_processor[1]</option><option>//input[@id='payment_processor_1']</option><option>//form[@id='Amount']/div[2]/table/tbody/tr[3]/td/input[3]</option><option>//td/input[3]</option><option>css=#payment_processor_1</option></datalist></td><td></td>
+</tr>
+<tr><td>check</td><td>id=payment_processor_3<datalist><option>id=payment_processor_3</option><option>id=payment_processor_1</option><option>name=payment_processor[1]</option><option>//input[@id='payment_processor_1']</option><option>//form[@id='Amount']/div[2]/table/tbody/tr[3]/td/input[3]</option><option>//td/input[3]</option><option>css=#payment_processor_1</option></datalist></td><td></td>
+</tr>
+<tr><td>uncheck</td><td>id=is_pay_later<datalist><option>id=is_pay_later</option><option>id=payment_processor_1</option><option>name=payment_processor[1]</option><option>//input[@id='payment_processor_1']</option><option>//form[@id='Amount']/div[2]/table/tbody/tr[3]/td/input[3]</option><option>//td/input[3]</option><option>css=#payment_processor_1</option></datalist></td><td></td>
+</tr>
+<tr><td>click</td><td>id=_qf_Amount_next-top<datalist><option>id=_qf_Amount_next-top</option><option>name=_qf_Amount_next</option><option>//input[@id='_qf_Amount_next-top']</option><option>//form[@id='Amount']/div[2]/div[2]/span/input</option><option>//span/input</option><option>css=#_qf_Amount_next-top</option></datalist></td><td></td>
+</tr>
+</tbody></table>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">Online Contribution Page 2xStripe, Test proc, use Stripe Alt</td></tr>
+</thead>
+<tbody>
+<tr><td>open</td><td>http://localhost:8001/civicrm/contribute/transact?reset=1&amp;id=1<datalist><option>http://localhost:8001/civicrm/contribute/transact?reset=1&amp;id=1</option><option>http://localhost:8001/civicrm/admin/contribute?reset=1</option></datalist></td><td></td>
+</tr>
+<tr><td>pause</td><td>2000<datalist><option>10000</option><option>2000</option></datalist></td><td></td>
+</tr>
+<tr><td>click</td><td>//form[@id='Main']/div[2]/fieldset/div/div[2]/label[2]<datalist><option>//form[@id='Main']/div[2]/fieldset/div/div[2]/label[2]</option><option>//fieldset/div/div[2]/label[2]</option></datalist></td><td></td>
+</tr>
+<tr><td>pause</td><td>10000<datalist><option>10000</option></datalist></td><td></td>
+</tr>
+<tr><td>click</td><td>id=credit_card_number<datalist><option>id=credit_card_number</option><option>name=credit_card_number</option><option>//input[@id='credit_card_number']</option><option>//div[@id='payment_information']/fieldset/div/div[2]/div[2]/input</option><option>//fieldset/div/div[2]/div[2]/input</option><option>css=#credit_card_number</option></datalist></td><td></td>
+</tr>
+<tr><td>type</td><td>id=credit_card_number<datalist><option>id=credit_card_number</option><option>name=credit_card_number</option><option>//input[@id='credit_card_number']</option><option>//div[@id='payment_information']/fieldset/div/div[2]/div[2]/input</option><option>//fieldset/div/div[2]/div[2]/input</option><option>css=#credit_card_number</option></datalist></td><td>4242424242424242</td>
+</tr>
+<tr><td>click</td><td>id=cvv2<datalist><option>id=cvv2</option><option>name=cvv2</option><option>//input[@id='cvv2']</option><option>//div[@id='payment_information']/fieldset/div/div[3]/div[2]/input</option><option>//div/div[3]/div[2]/input</option><option>css=#cvv2</option></datalist></td><td></td>
+</tr>
+<tr><td>type</td><td>id=cvv2<datalist><option>id=cvv2</option><option>name=cvv2</option><option>//input[@id='cvv2']</option><option>//div[@id='payment_information']/fieldset/div/div[3]/div[2]/input</option><option>//div/div[3]/div[2]/input</option><option>css=#cvv2</option></datalist></td><td>123</td>
+</tr>
+<tr><td>click</td><td>id=credit_card_exp_date_M<datalist><option>id=credit_card_exp_date_M</option><option>name=credit_card_exp_date[M]</option><option>//select[@id='credit_card_exp_date_M']</option><option>//div[@id='payment_information']/fieldset/div/div[4]/div[2]/select</option><option>//fieldset/div/div[4]/div[2]/select</option><option>css=#credit_card_exp_date_M</option></datalist></td><td></td>
+</tr>
+<tr><td>select</td><td>id=credit_card_exp_date_M<datalist><option>id=credit_card_exp_date_M</option><option>name=credit_card_exp_date[M]</option><option>//select[@id='credit_card_exp_date_M']</option><option>//div[@id='payment_information']/fieldset/div/div[4]/div[2]/select</option><option>//fieldset/div/div[4]/div[2]/select</option><option>css=#credit_card_exp_date_M</option></datalist></td><td>label=Dec</td>
+</tr>
+<tr><td>click</td><td>//option[@value='12']<datalist><option>//option[@value='12']</option><option>//select[@id='credit_card_exp_date_M']/option[13]</option><option>//option[13]</option><option>css=option[value="12"]</option></datalist></td><td></td>
+</tr>
+<tr><td>click</td><td>id=credit_card_exp_date_Y<datalist><option>id=credit_card_exp_date_Y</option><option>name=credit_card_exp_date[Y]</option><option>//select[@id='credit_card_exp_date_Y']</option><option>//div[@id='payment_information']/fieldset/div/div[4]/div[2]/select[2]</option><option>//select[2]</option><option>css=#credit_card_exp_date_Y</option></datalist></td><td></td>
+</tr>
+<tr><td>select</td><td>id=credit_card_exp_date_Y<datalist><option>id=credit_card_exp_date_Y</option><option>name=credit_card_exp_date[Y]</option><option>//select[@id='credit_card_exp_date_Y']</option><option>//div[@id='payment_information']/fieldset/div/div[4]/div[2]/select[2]</option><option>//select[2]</option><option>css=#credit_card_exp_date_Y</option></datalist></td><td>label=2028</td>
+</tr>
+<tr><td>click</td><td>//option[@value='2028']<datalist><option>//option[@value='2028']</option><option>//select[@id='credit_card_exp_date_Y']/option[12]</option><option>//select[2]/option[12]</option><option>css=option[value="2028"]</option></datalist></td><td></td>
+</tr>
+<tr><td>click</td><td>id=billing_first_name<datalist><option>id=billing_first_name</option><option>name=billing_first_name</option><option>//input[@id='billing_first_name']</option><option>//div[@id='payment_information']/fieldset[2]/div/div/div[2]/input</option><option>//fieldset[2]/div/div/div[2]/input</option><option>css=#billing_first_name</option></datalist></td><td></td>
+</tr>
+<tr><td>type</td><td>id=billing_first_name<datalist><option>id=billing_first_name</option><option>name=billing_first_name</option><option>//input[@id='billing_first_name']</option><option>//div[@id='payment_information']/fieldset[2]/div/div/div[2]/input</option><option>//fieldset[2]/div/div/div[2]/input</option><option>css=#billing_first_name</option></datalist></td><td>Joe</td>
+</tr>
+<tr><td>type</td><td>id=billing_last_name<datalist><option>id=billing_last_name</option><option>name=billing_last_name</option><option>//input[@id='billing_last_name']</option><option>//div[@id='payment_information']/fieldset[2]/div/div[3]/div[2]/input</option><option>//fieldset[2]/div/div[3]/div[2]/input</option><option>css=#billing_last_name</option></datalist></td><td>Joe</td>
+</tr>
+<tr><td>type</td><td>id=billing_street_address-5<datalist><option>id=billing_street_address-5</option><option>name=billing_street_address-5</option><option>//input[@id='billing_street_address-5']</option><option>//div[@id='payment_information']/fieldset[2]/div/div[4]/div[2]/input</option><option>//fieldset[2]/div/div[4]/div[2]/input</option><option>css=#billing_street_address-5</option></datalist></td><td>123</td>
+</tr>
+<tr><td>type</td><td>id=billing_city-5<datalist><option>id=billing_city-5</option><option>name=billing_city-5</option><option>//input[@id='billing_city-5']</option><option>//div[@id='payment_information']/fieldset[2]/div/div[5]/div[2]/input</option><option>//fieldset[2]/div/div[5]/div[2]/input</option><option>css=#billing_city-5</option></datalist></td><td>Joe</td>
+</tr>
+<tr><td>click</td><td>id=billing_postal_code-5<datalist><option>id=billing_postal_code-5</option><option>name=billing_postal_code-5</option><option>//input[@id='billing_postal_code-5']</option><option>//div[@id='payment_information']/fieldset[2]/div/div[8]/div[2]/input</option><option>//div[8]/div[2]/input</option><option>css=#billing_postal_code-5</option></datalist></td><td></td>
+</tr>
+<tr><td>type</td><td>id=billing_postal_code-5<datalist><option>id=billing_postal_code-5</option><option>name=billing_postal_code-5</option><option>//input[@id='billing_postal_code-5']</option><option>//div[@id='payment_information']/fieldset[2]/div/div[8]/div[2]/input</option><option>//div[8]/div[2]/input</option><option>css=#billing_postal_code-5</option></datalist></td><td>12345</td>
+</tr>
+<tr><td>clickAndWait</td><td>id=_qf_Main_upload-bottom<datalist><option>id=_qf_Main_upload-bottom</option><option>name=_qf_Main_upload</option><option>//input[@id='_qf_Main_upload-bottom']</option><option>//div[@id='crm-submit-buttons']/span/input</option><option>//div[12]/span/input</option><option>css=#_qf_Main_upload-bottom</option></datalist></td><td></td>
+</tr>
+<tr><td>click</td><td>id=_qf_Confirm_next-top<datalist><option>id=_qf_Confirm_next-top</option><option>name=_qf_Confirm_next</option><option>//input[@id='_qf_Confirm_next-top']</option><option>//div[@id='crm-submit-buttons']/span/input</option><option>//span/input</option><option>css=#_qf_Confirm_next-top</option></datalist></td><td></td>
+</tr>
+</tbody></table>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">Setup Contribution Page Stripe Default, Pay Later</td></tr>
+</thead>
+<tbody>
+<tr><td>open</td><td>http://localhost:8001/civicrm/admin/contribute/amount?reset=1&amp;action=update&amp;id=1<datalist><option>http://localhost:8001/civicrm/admin/contribute/amount?reset=1&amp;action=update&amp;id=1</option><option>http://localhost:8001/civicrm/admin/contribute?reset=1</option></datalist></td><td></td>
+</tr>
+<tr><td>check</td><td>id=payment_processor_5<datalist><option>id=payment_processor_5</option><option>name=payment_processor[5]</option><option>//input[@id='payment_processor_5']</option><option>//form[@id='Amount']/div[2]/table/tbody/tr[3]/td/input</option><option>//tr[3]/td/input</option><option>css=#payment_processor_5</option></datalist></td><td></td>
+</tr>
+<tr><td>uncheck</td><td>id=payment_processor_1<datalist><option>id=payment_processor_1</option><option>name=payment_processor[1]</option><option>//input[@id='payment_processor_1']</option><option>//form[@id='Amount']/div[2]/table/tbody/tr[3]/td/input[3]</option><option>//td/input[3]</option><option>css=#payment_processor_1</option></datalist></td><td></td>
+</tr>
+<tr><td>uncheck</td><td>id=payment_processor_3<datalist><option>id=payment_processor_3</option><option>id=payment_processor_1</option><option>name=payment_processor[1]</option><option>//input[@id='payment_processor_1']</option><option>//form[@id='Amount']/div[2]/table/tbody/tr[3]/td/input[3]</option><option>//td/input[3]</option><option>css=#payment_processor_1</option></datalist></td><td></td>
+</tr>
+<tr><td>check</td><td>id=is_pay_later<datalist><option>id=is_pay_later</option><option>id=payment_processor_1</option><option>name=payment_processor[1]</option><option>//input[@id='payment_processor_1']</option><option>//form[@id='Amount']/div[2]/table/tbody/tr[3]/td/input[3]</option><option>//td/input[3]</option><option>css=#payment_processor_1</option></datalist></td><td></td>
+</tr>
+<tr><td>selectFrame</td><td>index=0<datalist><option>index=0</option></datalist></td><td></td>
+</tr>
+<tr><td>editContent</td><td>//body<datalist><option>//body</option><option>css=body.cke_editable.cke_editable_themed.cke_contents_ltr.cke_show_borders</option></datalist></td><td>&lt;p&gt;Do something&lt;/p&gt;</td>
+</tr>
+<tr><td>selectFrame</td><td>relative=parent<datalist><option>relative=parent</option></datalist></td><td></td>
+</tr>
+<tr><td>click</td><td>id=_qf_Amount_next-top<datalist><option>id=_qf_Amount_next-top</option><option>name=_qf_Amount_next</option><option>//input[@id='_qf_Amount_next-top']</option><option>//form[@id='Amount']/div[2]/div[2]/span/input</option><option>//span/input</option><option>css=#_qf_Amount_next-top</option></datalist></td><td></td>
+</tr>
+</tbody></table>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">Online Contribution Page Stripe Default, Pay Later</td></tr>
+</thead>
+<tbody>
+<tr><td>open</td><td>http://localhost:8001/civicrm/contribute/transact?reset=1&amp;id=1<datalist><option>http://localhost:8001/civicrm/contribute/transact?reset=1&amp;id=1</option><option>http://localhost:8001/civicrm/admin/contribute?reset=1</option></datalist></td><td></td>
+</tr>
+<tr><td>pause</td><td>2000<datalist><option>2000</option><option>10000</option></datalist></td><td></td>
+</tr>
+<tr><td>click</td><td>//form[@id='Main']/div[2]/fieldset/div/div[2]/label[2]<datalist><option>//form[@id='Main']/div[2]/fieldset/div/div[2]/label[2]</option><option>//fieldset/div/div[2]/label[2]</option></datalist></td><td></td>
+</tr>
+<tr><td>click</td><td>//form[@id='Main']/div[2]/fieldset/div/div[2]/label<datalist><option>//form[@id='Main']/div[2]/fieldset/div/div[2]/label</option><option>//fieldset/div/div[2]/label</option><option>css=div.crm-public-form-item.crm-section.payment_processor-section &gt; div.content &gt; label</option></datalist></td><td></td>
+</tr>
+<tr><td>pause</td><td>10000<datalist><option>10000</option></datalist></td><td></td>
+</tr>
+<tr><td>click</td><td>id=credit_card_number<datalist><option>id=credit_card_number</option><option>name=credit_card_number</option><option>//input[@id='credit_card_number']</option><option>//div[@id='payment_information']/fieldset/div/div[2]/div[2]/input</option><option>//fieldset/div/div[2]/div[2]/input</option><option>css=#credit_card_number</option></datalist></td><td></td>
+</tr>
+<tr><td>type</td><td>id=credit_card_number<datalist><option>id=credit_card_number</option><option>name=credit_card_number</option><option>//input[@id='credit_card_number']</option><option>//div[@id='payment_information']/fieldset/div/div[2]/div[2]/input</option><option>//fieldset/div/div[2]/div[2]/input</option><option>css=#credit_card_number</option></datalist></td><td>4242424242424242</td>
+</tr>
+<tr><td>click</td><td>id=cvv2<datalist><option>id=cvv2</option><option>name=cvv2</option><option>//input[@id='cvv2']</option><option>//div[@id='payment_information']/fieldset/div/div[3]/div[2]/input</option><option>//div/div[3]/div[2]/input</option><option>css=#cvv2</option></datalist></td><td></td>
+</tr>
+<tr><td>type</td><td>id=cvv2<datalist><option>id=cvv2</option><option>name=cvv2</option><option>//input[@id='cvv2']</option><option>//div[@id='payment_information']/fieldset/div/div[3]/div[2]/input</option><option>//div/div[3]/div[2]/input</option><option>css=#cvv2</option></datalist></td><td>123</td>
+</tr>
+<tr><td>click</td><td>id=credit_card_exp_date_M<datalist><option>id=credit_card_exp_date_M</option><option>name=credit_card_exp_date[M]</option><option>//select[@id='credit_card_exp_date_M']</option><option>//div[@id='payment_information']/fieldset/div/div[4]/div[2]/select</option><option>//fieldset/div/div[4]/div[2]/select</option><option>css=#credit_card_exp_date_M</option></datalist></td><td></td>
+</tr>
+<tr><td>select</td><td>id=credit_card_exp_date_M<datalist><option>id=credit_card_exp_date_M</option><option>name=credit_card_exp_date[M]</option><option>//select[@id='credit_card_exp_date_M']</option><option>//div[@id='payment_information']/fieldset/div/div[4]/div[2]/select</option><option>//fieldset/div/div[4]/div[2]/select</option><option>css=#credit_card_exp_date_M</option></datalist></td><td>label=Dec</td>
+</tr>
+<tr><td>click</td><td>//option[@value='12']<datalist><option>//option[@value='12']</option><option>//select[@id='credit_card_exp_date_M']/option[13]</option><option>//option[13]</option><option>css=option[value="12"]</option></datalist></td><td></td>
+</tr>
+<tr><td>click</td><td>id=credit_card_exp_date_Y<datalist><option>id=credit_card_exp_date_Y</option><option>name=credit_card_exp_date[Y]</option><option>//select[@id='credit_card_exp_date_Y']</option><option>//div[@id='payment_information']/fieldset/div/div[4]/div[2]/select[2]</option><option>//select[2]</option><option>css=#credit_card_exp_date_Y</option></datalist></td><td></td>
+</tr>
+<tr><td>select</td><td>id=credit_card_exp_date_Y<datalist><option>id=credit_card_exp_date_Y</option><option>name=credit_card_exp_date[Y]</option><option>//select[@id='credit_card_exp_date_Y']</option><option>//div[@id='payment_information']/fieldset/div/div[4]/div[2]/select[2]</option><option>//select[2]</option><option>css=#credit_card_exp_date_Y</option></datalist></td><td>label=2028</td>
+</tr>
+<tr><td>click</td><td>//option[@value='2028']<datalist><option>//option[@value='2028']</option><option>//select[@id='credit_card_exp_date_Y']/option[12]</option><option>//select[2]/option[12]</option><option>css=option[value="2028"]</option></datalist></td><td></td>
+</tr>
+<tr><td>click</td><td>id=billing_first_name<datalist><option>id=billing_first_name</option><option>name=billing_first_name</option><option>//input[@id='billing_first_name']</option><option>//div[@id='payment_information']/fieldset[2]/div/div/div[2]/input</option><option>//fieldset[2]/div/div/div[2]/input</option><option>css=#billing_first_name</option></datalist></td><td></td>
+</tr>
+<tr><td>type</td><td>id=billing_first_name<datalist><option>id=billing_first_name</option><option>name=billing_first_name</option><option>//input[@id='billing_first_name']</option><option>//div[@id='payment_information']/fieldset[2]/div/div/div[2]/input</option><option>//fieldset[2]/div/div/div[2]/input</option><option>css=#billing_first_name</option></datalist></td><td>Joe</td>
+</tr>
+<tr><td>type</td><td>id=billing_last_name<datalist><option>id=billing_last_name</option><option>name=billing_last_name</option><option>//input[@id='billing_last_name']</option><option>//div[@id='payment_information']/fieldset[2]/div/div[3]/div[2]/input</option><option>//fieldset[2]/div/div[3]/div[2]/input</option><option>css=#billing_last_name</option></datalist></td><td>Joe</td>
+</tr>
+<tr><td>type</td><td>id=billing_street_address-5<datalist><option>id=billing_street_address-5</option><option>name=billing_street_address-5</option><option>//input[@id='billing_street_address-5']</option><option>//div[@id='payment_information']/fieldset[2]/div/div[4]/div[2]/input</option><option>//fieldset[2]/div/div[4]/div[2]/input</option><option>css=#billing_street_address-5</option></datalist></td><td>123</td>
+</tr>
+<tr><td>type</td><td>id=billing_city-5<datalist><option>id=billing_city-5</option><option>name=billing_city-5</option><option>//input[@id='billing_city-5']</option><option>//div[@id='payment_information']/fieldset[2]/div/div[5]/div[2]/input</option><option>//fieldset[2]/div/div[5]/div[2]/input</option><option>css=#billing_city-5</option></datalist></td><td>Joe</td>
+</tr>
+<tr><td>click</td><td>id=billing_postal_code-5<datalist><option>id=billing_postal_code-5</option><option>name=billing_postal_code-5</option><option>//input[@id='billing_postal_code-5']</option><option>//div[@id='payment_information']/fieldset[2]/div/div[8]/div[2]/input</option><option>//div[8]/div[2]/input</option><option>css=#billing_postal_code-5</option></datalist></td><td></td>
+</tr>
+<tr><td>type</td><td>id=billing_postal_code-5<datalist><option>id=billing_postal_code-5</option><option>name=billing_postal_code-5</option><option>//input[@id='billing_postal_code-5']</option><option>//div[@id='payment_information']/fieldset[2]/div/div[8]/div[2]/input</option><option>//div[8]/div[2]/input</option><option>css=#billing_postal_code-5</option></datalist></td><td>12345</td>
+</tr>
+<tr><td>clickAndWait</td><td>id=_qf_Main_upload-bottom<datalist><option>id=_qf_Main_upload-bottom</option><option>name=_qf_Main_upload</option><option>//input[@id='_qf_Main_upload-bottom']</option><option>//div[@id='crm-submit-buttons']/span/input</option><option>//div[12]/span/input</option><option>css=#_qf_Main_upload-bottom</option></datalist></td><td></td>
+</tr>
+<tr><td>click</td><td>id=_qf_Confirm_next-top<datalist><option>id=_qf_Confirm_next-top</option><option>name=_qf_Confirm_next</option><option>//input[@id='_qf_Confirm_next-top']</option><option>//div[@id='crm-submit-buttons']/span/input</option><option>//span/input</option><option>css=#_qf_Confirm_next-top</option></datalist></td><td></td>
+</tr>
+</tbody></table>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">Setup Contribution Page Stripe Default, no confirmation</td></tr>
+</thead>
+<tbody>
+<tr><td>open</td><td>http://localhost:8001/civicrm/admin/contribute/amount?reset=1&amp;action=update&amp;id=1<datalist><option>http://localhost:8001/civicrm/admin/contribute/amount?reset=1&amp;action=update&amp;id=1</option><option>http://localhost:8001/civicrm/admin/contribute?reset=1</option></datalist></td><td></td>
+</tr>
+<tr><td>check</td><td>id=payment_processor_5<datalist><option>id=payment_processor_5</option><option>name=payment_processor[5]</option><option>//input[@id='payment_processor_5']</option><option>//form[@id='Amount']/div[2]/table/tbody/tr[3]/td/input</option><option>//tr[3]/td/input</option><option>css=#payment_processor_5</option></datalist></td><td></td>
+</tr>
+<tr><td>uncheck</td><td>id=payment_processor_1<datalist><option>id=payment_processor_1</option><option>name=payment_processor[1]</option><option>//input[@id='payment_processor_1']</option><option>//form[@id='Amount']/div[2]/table/tbody/tr[3]/td/input[3]</option><option>//td/input[3]</option><option>css=#payment_processor_1</option></datalist></td><td></td>
+</tr>
+<tr><td>uncheck</td><td>id=payment_processor_3<datalist><option>id=payment_processor_3</option><option>id=payment_processor_1</option><option>name=payment_processor[1]</option><option>//input[@id='payment_processor_1']</option><option>//form[@id='Amount']/div[2]/table/tbody/tr[3]/td/input[3]</option><option>//td/input[3]</option><option>css=#payment_processor_1</option></datalist></td><td></td>
+</tr>
+<tr><td>uncheck</td><td>id=is_pay_later<datalist><option>id=is_pay_later</option><option>id=payment_processor_1</option><option>name=payment_processor[1]</option><option>//input[@id='payment_processor_1']</option><option>//form[@id='Amount']/div[2]/table/tbody/tr[3]/td/input[3]</option><option>//td/input[3]</option><option>css=#payment_processor_1</option></datalist></td><td></td>
+</tr>
+<tr><td>clickAndWait</td><td>id=_qf_Amount_next-top<datalist><option>id=_qf_Amount_next-top</option><option>name=_qf_Amount_next</option><option>//input[@id='_qf_Amount_next-top']</option><option>//form[@id='Amount']/div[2]/div[2]/span/input</option><option>//span/input</option><option>css=#_qf_Amount_next-top</option></datalist></td><td></td>
+</tr>
+<tr><td>click</td><td>id=ui-id-25<datalist><option>id=ui-id-25</option><option>link=Title</option><option>//a[contains(text(),'Title')]</option><option>//a[@id='ui-id-25']</option><option>//li[@id='tab_settings']/a</option><option>//a[contains(@href, '/civicrm/admin/contribute/settings?reset=1&amp;action=update&amp;id=1')]</option><option>//div[3]/div[2]/div/ul/li/a</option><option>css=#ui-id-25</option></datalist></td><td></td>
+</tr>
+<tr><td>uncheck</td><td>id=is_confirm_enabled<datalist><option>id=is_confirm_enabled</option><option>name=is_confirm_enabled</option><option>//input[@id='is_confirm_enabled']</option><option>//form[@id='Settings']/div[3]/table[3]/tbody/tr/td[2]/input</option><option>//table[3]/tbody/tr/td[2]/input</option><option>css=#is_confirm_enabled</option></datalist></td><td></td>
+</tr>
+<tr><td>click</td><td>id=_qf_Settings_next-bottom<datalist><option>id=_qf_Settings_next-bottom</option><option>//input[@id='_qf_Settings_next-bottom']</option><option>//form[@id='Settings']/div[3]/div[2]/span/input</option><option>//div[2]/span/input</option><option>css=#_qf_Settings_next-bottom</option></datalist></td><td></td>
+</tr>
+</tbody></table>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">Online Contribution without Confirmation</td></tr>
+</thead>
+<tbody>
+<tr><td>open</td><td>http://localhost:8001/civicrm/contribute/transact?reset=1&amp;id=1<datalist><option>http://localhost:8001/civicrm/contribute/transact?_qf_ThankYou_display=true&amp;qfKey=b0e781ecef9514445bd1db3b6e7810ba_4977</option><option>http://localhost:8001/civicrm/contribute/transact?reset=1&amp;id=1</option></datalist></td><td></td>
+</tr>
+<tr><td>click</td><td>id=price_3<datalist><option>id=price_3</option><option>name=price_3</option><option>//input[@id='price_3']</option><option>//div[@id='priceset']/div[2]/div[2]/input</option><option>//div/div[2]/div[2]/input</option><option>css=#price_3</option></datalist></td><td></td>
+</tr>
+<tr><td>click</td><td>id=CIVICRM_QFID_4_6<datalist><option>id=CIVICRM_QFID_4_6</option><option>//input[@id='CIVICRM_QFID_4_6']</option><option>//div[@id='priceset']/div/div[2]/div[3]/span/input</option><option>//div[3]/span/input</option><option>css=#CIVICRM_QFID_4_6</option></datalist></td><td></td>
+</tr>
+<tr><td>click</td><td>id=credit_card_number<datalist><option>id=credit_card_number</option><option>name=credit_card_number</option><option>//input[@id='credit_card_number']</option><option>//div[@id='payment_information']/fieldset/div/div[2]/div[2]/input</option><option>//fieldset/div/div[2]/div[2]/input</option><option>css=#credit_card_number</option></datalist></td><td></td>
+</tr>
+<tr><td>type</td><td>id=credit_card_number<datalist><option>id=credit_card_number</option><option>name=credit_card_number</option><option>//input[@id='credit_card_number']</option><option>//div[@id='payment_information']/fieldset/div/div[2]/div[2]/input</option><option>//fieldset/div/div[2]/div[2]/input</option><option>css=#credit_card_number</option></datalist></td><td>4242424242424242</td>
+</tr>
+<tr><td>click</td><td>id=cvv2<datalist><option>id=cvv2</option><option>name=cvv2</option><option>//input[@id='cvv2']</option><option>//div[@id='payment_information']/fieldset/div/div[3]/div[2]/input</option><option>//div/div[3]/div[2]/input</option><option>css=#cvv2</option></datalist></td><td></td>
+</tr>
+<tr><td>type</td><td>id=cvv2<datalist><option>id=cvv2</option><option>name=cvv2</option><option>//input[@id='cvv2']</option><option>//div[@id='payment_information']/fieldset/div/div[3]/div[2]/input</option><option>//div/div[3]/div[2]/input</option><option>css=#cvv2</option></datalist></td><td>123</td>
+</tr>
+<tr><td>click</td><td>id=credit_card_exp_date_M<datalist><option>id=credit_card_exp_date_M</option><option>name=credit_card_exp_date[M]</option><option>//select[@id='credit_card_exp_date_M']</option><option>//div[@id='payment_information']/fieldset/div/div[4]/div[2]/select</option><option>//fieldset/div/div[4]/div[2]/select</option><option>css=#credit_card_exp_date_M</option></datalist></td><td></td>
+</tr>
+<tr><td>select</td><td>id=credit_card_exp_date_M<datalist><option>id=credit_card_exp_date_M</option><option>name=credit_card_exp_date[M]</option><option>//select[@id='credit_card_exp_date_M']</option><option>//div[@id='payment_information']/fieldset/div/div[4]/div[2]/select</option><option>//fieldset/div/div[4]/div[2]/select</option><option>css=#credit_card_exp_date_M</option></datalist></td><td>label=Dec</td>
+</tr>
+<tr><td>click</td><td>//option[@value='12']<datalist><option>//option[@value='12']</option><option>//select[@id='credit_card_exp_date_M']/option[13]</option><option>//option[13]</option><option>css=option[value="12"]</option></datalist></td><td></td>
+</tr>
+<tr><td>click</td><td>id=credit_card_exp_date_Y<datalist><option>id=credit_card_exp_date_Y</option><option>name=credit_card_exp_date[Y]</option><option>//select[@id='credit_card_exp_date_Y']</option><option>//div[@id='payment_information']/fieldset/div/div[4]/div[2]/select[2]</option><option>//select[2]</option><option>css=#credit_card_exp_date_Y</option></datalist></td><td></td>
+</tr>
+<tr><td>select</td><td>id=credit_card_exp_date_Y<datalist><option>id=credit_card_exp_date_Y</option><option>name=credit_card_exp_date[Y]</option><option>//select[@id='credit_card_exp_date_Y']</option><option>//div[@id='payment_information']/fieldset/div/div[4]/div[2]/select[2]</option><option>//select[2]</option><option>css=#credit_card_exp_date_Y</option></datalist></td><td>label=2028</td>
+</tr>
+<tr><td>click</td><td>//option[@value='2028']<datalist><option>//option[@value='2028']</option><option>//select[@id='credit_card_exp_date_Y']/option[12]</option><option>//select[2]/option[12]</option><option>css=option[value="2028"]</option></datalist></td><td></td>
+</tr>
+<tr><td>click</td><td>//div[@id='payment_information']/fieldset/div/div[6]/div[2]<datalist><option>//div[@id='payment_information']/fieldset/div/div[6]/div[2]</option><option>//fieldset/div/div[6]/div[2]</option></datalist></td><td></td>
+</tr>
+<tr><td>click</td><td>id=_qf_Main_upload-bottom<datalist><option>id=_qf_Main_upload-bottom</option><option>name=_qf_Main_upload</option><option>//input[@id='_qf_Main_upload-bottom']</option><option>//div[@id='crm-submit-buttons']/span/input</option><option>//div[12]/span/input</option><option>css=#_qf_Main_upload-bottom</option></datalist></td><td></td>
+</tr>
+</tbody></table>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">Setup Webform</td></tr>
+</thead>
+<tbody>
+<tr><td>open</td><td>http://localhost:8001/node/add/webform<datalist><option>http://localhost:8001/node/add/webform</option></datalist></td><td></td>
+</tr>
+<tr><td>click</td><td>id=edit-title<datalist><option>id=edit-title</option><option>name=title</option><option>//input[@id='edit-title']</option><option>//form[@id='webform-node-form']/div/div/input</option><option>//input</option><option>css=#edit-title</option></datalist></td><td></td>
+</tr>
+<tr><td>type</td><td>id=edit-title<datalist><option>id=edit-title</option><option>name=title</option><option>//input[@id='edit-title']</option><option>//form[@id='webform-node-form']/div/div/input</option><option>//input</option><option>css=#edit-title</option></datalist></td><td>WebformContribution</td>
+</tr>
+<tr><td>clickAndWait</td><td>id=edit-submit<datalist><option>id=edit-submit</option><option>name=op</option><option>//input[@id='edit-submit']</option><option>//div[@id='edit-actions']/input</option><option>//form/div/div[3]/input</option><option>css=#edit-submit</option></datalist></td><td></td>
+</tr>
+<tr><td>click</td><td>//div[@id='branding']/div<datalist><option>//div[@id='branding']/div</option><option>//div[3]/div</option><option>css=div.breadcrumb</option></datalist></td><td></td>
+</tr>
+<tr><td>clickAndWait</td><td>link=CiviCRM<datalist><option>link=CiviCRM</option><option>//a[contains(text(),'CiviCRM')]</option><option>//div[@id='branding']/ul/li[5]/a</option><option>//a[contains(@href, '/node/1/civicrm')]</option><option>//div[3]/ul/li[5]/a</option></datalist></td><td></td>
+</tr>
+<tr><td>check</td><td>id=edit-nid<datalist><option>id=edit-nid</option><option>name=nid</option><option>//input[@id='edit-nid']</option><option>//form[@id='wf-crm-configure-form']/div/div/input</option><option>//input</option><option>css=#edit-nid</option></datalist></td><td></td>
+</tr>
+<tr><td>check</td><td>id=edit-civicrm-1-contact-1-contact-existing<datalist><option>id=edit-civicrm-1-contact-1-contact-existing</option><option>name=civicrm_1_contact_1_contact_existing</option><option>//input[@id='edit-civicrm-1-contact-1-contact-existing']</option><option>//fieldset[@id='civicrm_1contact1_fieldset']/div/div[2]/input</option><option>//fieldset/div/div[2]/input</option><option>css=#edit-civicrm-1-contact-1-contact-existing</option></datalist></td><td></td>
+</tr>
+<tr><td>click</td><td>id=edit-contact-1-number-of-email<datalist><option>id=edit-contact-1-number-of-email</option><option>name=contact_1_number_of_email</option><option>//select[@id='edit-contact-1-number-of-email']</option><option>//fieldset[@id='edit-contact-1']/div/div[10]/div/select</option><option>//div[10]/div/select</option><option>css=#edit-contact-1-number-of-email</option></datalist></td><td></td>
+</tr>
+<tr><td>select</td><td>id=edit-contact-1-number-of-email<datalist><option>id=edit-contact-1-number-of-email</option></datalist></td><td>label=1</td>
+</tr>
+<tr><td>click</td><td>css=strong:contains('Contribution')<datalist><option>css=strong:contains('Contribution')</option></datalist></td><td></td>
+</tr>
+<tr><td>click</td><td>id=edit-civicrm-1-contribution-1-contribution-contribution-page-id<datalist><option>id=edit-civicrm-1-contribution-1-contribution-contribution-page-id</option><option>name=civicrm_1_contribution_1_contribution_contribution_page_id</option><option>//select[@id='edit-civicrm-1-contribution-1-contribution-contribution-page-id']</option><option>//fieldset[@id='edit-contribution']/div/div[2]/select</option><option>//fieldset[7]/div/div[2]/select</option><option>css=#edit-civicrm-1-contribution-1-contribution-contribution-page-id</option></datalist></td><td></td>
+</tr>
+<tr><td>select</td><td>id=edit-civicrm-1-contribution-1-contribution-contribution-page-id<datalist><option>id=edit-civicrm-1-contribution-1-contribution-contribution-page-id</option></datalist></td><td>label=Help Support CiviCRM!</td>
+</tr>
+<tr><td>click</td><td>id=edit-civicrm-1-contribution-1-contribution-total-amount<datalist><option>id=edit-civicrm-1-contribution-1-contribution-total-amount</option><option>name=civicrm_1_contribution_1_contribution_total_amount</option><option>//input[@id='edit-civicrm-1-contribution-1-contribution-total-amount']</option><option>//fieldset[@id='contribution']/div/div[2]/input</option><option>//fieldset[7]/div/div[3]/fieldset/div/div[2]/input</option><option>css=#edit-civicrm-1-contribution-1-contribution-total-amount</option></datalist></td><td></td>
+</tr>
+<tr><td>click</td><td>id=edit-submit<datalist><option>id=edit-submit</option><option>//input[@id='edit-submit']</option><option>//form[@id='wf-crm-configure-form']/div/input</option><option>//form/div/input</option><option>css=#edit-submit</option></datalist></td><td></td>
+</tr>
+<tr><td>click</td><td>id=edit-actions-submit<datalist><option>id=edit-actions-submit</option><option>//input[@id='edit-actions-submit']</option><option>//div[@id='edit-actions']/input</option><option>//div[3]/input</option><option>css=#edit-actions-submit</option></datalist></td><td></td>
+</tr>
+</tbody></table>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">Test Webform</td></tr>
+</thead>
+<tbody>
+<tr><td>open</td><td>http://localhost:8001/node/1<datalist><option>http://localhost:8001/node/1</option></datalist></td><td></td>
+</tr>
+<tr><td>type</td><td>id=edit-submitted-civicrm-1-contact-1-fieldset-fieldset-civicrm-1-contact-1-contact-first-name<datalist><option>id=edit-submitted-civicrm-1-contact-1-fieldset-fieldset-civicrm-1-contact-1-contact-first-name</option><option>name=submitted[civicrm_1_contact_1_fieldset_fieldset][civicrm_1_contact_1_contact_first_name]</option><option>//input[@id='edit-submitted-civicrm-1-contact-1-fieldset-fieldset-civicrm-1-contact-1-contact-first-name']</option><option>//form[@id='webform-client-form-1']/div/fieldset/div/div/input</option><option>//fieldset/div/div/input</option><option>css=#edit-submitted-civicrm-1-contact-1-fieldset-fieldset-civicrm-1-contact-1-contact-first-name</option></datalist></td><td>Testy</td>
+</tr>
+<tr><td>type</td><td>id=edit-submitted-civicrm-1-contact-1-fieldset-fieldset-civicrm-1-contact-1-contact-last-name<datalist><option>id=edit-submitted-civicrm-1-contact-1-fieldset-fieldset-civicrm-1-contact-1-contact-last-name</option><option>name=submitted[civicrm_1_contact_1_fieldset_fieldset][civicrm_1_contact_1_contact_last_name]</option><option>//input[@id='edit-submitted-civicrm-1-contact-1-fieldset-fieldset-civicrm-1-contact-1-contact-last-name']</option><option>//form[@id='webform-client-form-1']/div/fieldset/div/div[2]/input</option><option>//fieldset/div/div[2]/input</option><option>css=#edit-submitted-civicrm-1-contact-1-fieldset-fieldset-civicrm-1-contact-1-contact-last-name</option></datalist></td><td>Joe</td>
+</tr>
+<tr><td>type</td><td>id=edit-submitted-civicrm-1-contact-1-fieldset-fieldset-civicrm-1-contact-1-email-email<datalist><option>id=edit-submitted-civicrm-1-contact-1-fieldset-fieldset-civicrm-1-contact-1-email-email</option><option>name=submitted[civicrm_1_contact_1_fieldset_fieldset][civicrm_1_contact_1_email_email]</option><option>//input[@id='edit-submitted-civicrm-1-contact-1-fieldset-fieldset-civicrm-1-contact-1-email-email']</option><option>//form[@id='webform-client-form-1']/div/fieldset/div/div[3]/input</option><option>//div[3]/input</option><option>css=#edit-submitted-civicrm-1-contact-1-fieldset-fieldset-civicrm-1-contact-1-email-email</option></datalist></td><td>test@joe.com</td>
+</tr>
+<tr><td>clickAndWait</td><td>xpath=(//*[@name='op'][@type='submit'][@value='Next Page &gt;'])<datalist><option>xpath=(//button[@name='op'])[2]</option><option>//form[@id='webform-client-form-3']/div/div[2]/button</option><option>//form/div/div[2]/button</option><option>css=#webform-client-form-3 &gt; div &gt; div.form-actions &gt; button[name="op"]</option><option>xpath=(//*[@name='op'][@type='submit'][@value='Next Page &gt;'])</option></datalist></td><td></td>
+</tr>
+<tr><td>type</td><td>id=edit-submitted-civicrm-1-contribution-1-contribution-total-amount<datalist><option>id=edit-submitted-civicrm-1-contribution-1-contribution-total-amount</option><option>name=submitted[civicrm_1_contribution_1_contribution_total_amount]</option><option>//input[@id='edit-submitted-civicrm-1-contribution-1-contribution-total-amount']</option><option>//form[@id='webform-client-form-1']/div/div[2]/input</option><option>//form/div/div[2]/input</option><option>css=#edit-submitted-civicrm-1-contribution-1-contribution-total-amount</option></datalist></td><td>10</td>
+</tr>
+<tr><td>click</td><td>id=credit_card_number<datalist><option>id=credit_card_number</option><option>name=credit_card_number</option><option>//input[@id='credit_card_number']</option><option>//div[@id='payment_information']/fieldset/div/div[2]/div[2]/input</option><option>//div[2]/div[2]/input</option><option>css=#credit_card_number</option></datalist></td><td></td>
+</tr>
+<tr><td>type</td><td>id=credit_card_number<datalist><option>id=credit_card_number</option><option>name=credit_card_number</option><option>//input[@id='credit_card_number']</option><option>//div[@id='payment_information']/fieldset/div/div[2]/div[2]/input</option><option>//div[2]/div[2]/input</option><option>css=#credit_card_number</option></datalist></td><td>4242424242424242</td>
+</tr>
+<tr><td>click</td><td>id=cvv2<datalist><option>id=cvv2</option><option>name=cvv2</option><option>//input[@id='cvv2']</option><option>//div[@id='payment_information']/fieldset/div/div[3]/div[2]/input</option><option>//div[3]/div[2]/input</option><option>css=#cvv2</option></datalist></td><td></td>
+</tr>
+<tr><td>type</td><td>id=cvv2<datalist><option>id=cvv2</option><option>name=cvv2</option><option>//input[@id='cvv2']</option><option>//div[@id='payment_information']/fieldset/div/div[3]/div[2]/input</option><option>//div[3]/div[2]/input</option><option>css=#cvv2</option></datalist></td><td>123</td>
+</tr>
+<tr><td>click</td><td>id=credit_card_exp_date_M<datalist><option>id=credit_card_exp_date_M</option><option>name=credit_card_exp_date[M]</option><option>//select[@id='credit_card_exp_date_M']</option><option>//div[@id='payment_information']/fieldset/div/div[4]/div[2]/select</option><option>//div[4]/div[2]/select</option><option>css=#credit_card_exp_date_M</option></datalist></td><td></td>
+</tr>
+<tr><td>select</td><td>id=credit_card_exp_date_M<datalist><option>id=credit_card_exp_date_M</option><option>name=credit_card_exp_date[M]</option><option>//select[@id='credit_card_exp_date_M']</option><option>//div[@id='payment_information']/fieldset/div/div[4]/div[2]/select</option><option>//div[4]/div[2]/select</option><option>css=#credit_card_exp_date_M</option></datalist></td><td>label=Dec</td>
+</tr>
+<tr><td>click</td><td>//option[@value='12']<datalist><option>//option[@value='12']</option><option>//select[@id='credit_card_exp_date_M']/option[13]</option><option>//option[13]</option><option>css=option[value="12"]</option></datalist></td><td></td>
+</tr>
+<tr><td>click</td><td>id=credit_card_exp_date_Y<datalist><option>id=credit_card_exp_date_Y</option><option>name=credit_card_exp_date[Y]</option><option>//select[@id='credit_card_exp_date_Y']</option><option>//div[@id='payment_information']/fieldset/div/div[4]/div[2]/select[2]</option><option>//select[2]</option><option>css=#credit_card_exp_date_Y</option></datalist></td><td></td>
+</tr>
+<tr><td>select</td><td>id=credit_card_exp_date_Y<datalist><option>id=credit_card_exp_date_Y</option><option>name=credit_card_exp_date[Y]</option><option>//select[@id='credit_card_exp_date_Y']</option><option>//div[@id='payment_information']/fieldset/div/div[4]/div[2]/select[2]</option><option>//select[2]</option><option>css=#credit_card_exp_date_Y</option></datalist></td><td>label=2028</td>
+</tr>
+<tr><td>click</td><td>//option[@value='2028']<datalist><option>//option[@value='2028']</option><option>//select[@id='credit_card_exp_date_Y']/option[12]</option><option>//select[2]/option[12]</option><option>css=option[value="2028"]</option></datalist></td><td></td>
+</tr>
+<tr><td>click</td><td>xpath=(//*[@name='op'][@value='Submit'])<datalist><option>xpath=(//button[@name='op'])[3]</option><option>//form[@id='webform-client-form-3']/div/div[6]/button[2]</option><option>//button[2]</option><option>xpath=(//*[@name='op'][@value='Submit'])</option></datalist></td><td></td>
+</tr>
+</tbody></table>
+</body>
+</html>
