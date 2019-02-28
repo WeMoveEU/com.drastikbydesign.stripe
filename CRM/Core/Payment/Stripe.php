@@ -818,7 +818,7 @@ class CRM_Core_Payment_Stripe extends CRM_Core_Payment {
    */
   public function validatePaymentInstrument($values, &$errors) {
     // Use $_POST here and not $values - for webform fields are not set in $values, but are in $_POST
-    CRM_Core_Form::validateMandatoryFields($this->getMandatoryFields(), $_POST, $errors);
+    //CRM_Core_Form::validateMandatoryFields($this->getMandatoryFields(), $_POST, $errors);
   }
 
   /**
