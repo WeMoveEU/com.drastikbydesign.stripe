@@ -273,7 +273,7 @@ class CRM_Core_Payment_StripeIPN extends CRM_Core_Payment_BaseIPN {
         if ($this->previous_contribution['contribution_status_id'] == $pendingStatusId) {
           $this->completeContribution();
         }
-        elseif ($this->previous_contribution['trxn_id'] != $this->charge_id) {
+        elseif ($this->previous_contribution['invoice_id'] != $this->invoice_id) {
           // The first contribution was completed, so create a new one.
           // api contribution repeattransaction repeats the appropriate contribution if it is given
           // simply the recurring contribution id. It also updates the membership for us.
@@ -301,18 +301,21 @@ class CRM_Core_Payment_StripeIPN extends CRM_Core_Payment_BaseIPN {
         $this->setInfo();
         $failDate = date('YmdHis');
 
-        if ($this->previous_contribution['contribution_status_id'] == $pendingStatusId) {
+        if ($this->previous_contribution['invoice_id'] == $this->invoice_id) {
           // If this contribution is Pending, set it to Failed.
-          civicrm_api3('Contribution', 'create', array(
-            'id' => $this->previous_contribution['id'],
-            'contribution_status_id' => "Failed",
-            'receive_date' => $failDate,
-            'is_email_receipt' => 0,
-          ));
+          if ($this->previous_contribution['contribution_status_id'] == $pendingStatusId) {
+            civicrm_api3('Contribution', 'create', array(
+              'id' => $this->previous_contribution['id'],
+              'contribution_status_id' => "Failed",
+              'receive_date' => $failDate,
+              'is_email_receipt' => 0,
+            ));
+          }
         }
         else {
           $contributionParams = [
             'contribution_recur_id' => $this->contribution_recur_id,
+            'trxn_id' => $this->charge_id,
             'contribution_status_id' => 'Failed',
             'receive_date' => $failDate,
             'total_amount' => $this->amount,
@@ -516,6 +519,15 @@ class CRM_Core_Payment_StripeIPN extends CRM_Core_Payment_BaseIPN {
           'contribution_test' => isset($this->_paymentProcessor['is_test']) && $this->_paymentProcessor['is_test'] ? 1 : 0,
           'options' => array('limit' => 1, 'sort' => 'id DESC'),
         ));
+        if ($contribution['trxn_id']) {
+          try {
+            $charge = \Stripe\Charge::retrieve($contribution['trxn_id']);
+            $contribution['invoice_id'] = $charge->invoice;
+          }
+          catch (Exception $e) {
+            $this->exception('Cannot retrieve charge from Stripe');
+          }
+        }
         $this->previous_contribution = $contribution;
       }
       catch (Exception $e) {
