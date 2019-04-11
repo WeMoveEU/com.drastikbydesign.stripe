@@ -236,7 +236,7 @@ class CRM_Core_Payment_StripeIPN extends CRM_Core_Payment_BaseIPN {
         if ($this->previous_contribution['contribution_status_id'] == $pendingStatusId) {
           $this->completeContribution();
         }
-        elseif ($this->previous_contribution['trxn_id'] != $this->charge_id) {
+        elseif ($this->previous_contribution['invoice_id'] != $this->invoice_id) {
           // The first contribution was completed, so create a new one.
           // api contribution repeattransaction repeats the appropriate contribution if it is given
           // simply the recurring contribution id. It also updates the membership for us.
@@ -245,6 +245,7 @@ class CRM_Core_Payment_StripeIPN extends CRM_Core_Payment_BaseIPN {
             'contribution_status_id' => 'Completed',
             'receive_date' => $this->receive_date,
             'trxn_id' => $this->charge_id,
+            'invoice_id' => $this->invoice_id,
             'total_amount' => $this->amount,
             'fee_amount' => $this->fee,
             'is_email_receipt' => $this->is_email_receipt,
@@ -264,18 +265,22 @@ class CRM_Core_Payment_StripeIPN extends CRM_Core_Payment_BaseIPN {
         $this->setInfo();
         $failDate = date('YmdHis');
 
-        if ($this->previous_contribution['contribution_status_id'] == $pendingStatusId) {
+        if ($this->previous_contribution['invoice_id'] == $this->invoice_id) {
           // If this contribution is Pending, set it to Failed.
-          civicrm_api3('Contribution', 'create', array(
-            'id' => $this->previous_contribution['id'],
-            'contribution_status_id' => "Failed",
-            'receive_date' => $failDate,
-            'is_email_receipt' => $this->is_email_receipt,
-          ));
+          if ($this->previous_contribution['contribution_status_id'] == $pendingStatusId) {
+            civicrm_api3('Contribution', 'create', array(
+              'id' => $this->previous_contribution['id'],
+              'contribution_status_id' => "Failed",
+              'receive_date' => $failDate,
+              'is_email_receipt' => 0,
+            ));
+          }
         }
         else {
           $contributionParams = [
             'contribution_recur_id' => $this->contribution_recur_id,
+            'trxn_id' => $this->charge_id,
+            'invoice_id' => $this->invoice_id,
             'contribution_status_id' => 'Failed',
             'receive_date' => $failDate,
             'total_amount' => $this->amount,
@@ -468,7 +473,7 @@ class CRM_Core_Payment_StripeIPN extends CRM_Core_Payment_BaseIPN {
         // Same approach as api repeattransaction. Find last contribution associated
         // with our recurring contribution.
         $contribution = civicrm_api3('contribution', 'getsingle', array(
-          'return' => array('id', 'contribution_status_id', 'total_amount', 'trxn_id'),
+          'return' => array('id', 'contribution_status_id', 'total_amount', 'trxn_id', 'invoice_id'),
           'contribution_recur_id' => $this->contribution_recur_id,
           'options' => array('limit' => 1, 'sort' => 'id DESC'),
         ));
