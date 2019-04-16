@@ -316,11 +316,41 @@ class CRM_Core_Payment_StripeIPN extends CRM_Core_Payment_BaseIPN {
         $chargeId = $this->retrieve('charge_id', 'String');
         $failureCode = $this->retrieve('failure_code', 'String');
         $failureMessage = $this->retrieve('failure_message', 'String');
-        $contribution = civicrm_api3('Contribution', 'getsingle', ['trxn_id' => $chargeId]);
+        $note = $failureCode . ' : ' . $failureMessage;
         $failedStatusId = CRM_Core_PseudoConstant::getKey('CRM_Contribute_BAO_Contribution', 'contribution_status_id', 'Failed');
-        if ($contribution['contribution_status_id'] != $failedStatusId) {
-          $note = $failureCode . ' : ' . $failureMessage;
-          civicrm_api3('Contribution', 'create', ['id' => $contribution['id'], 'contribution_status_id' => $failedStatusId, 'note' => $note]);
+        $result = civicrm_api3('Contribution', 'get', [
+          'sequential' => 1,
+          'trxn_id' => $chargeId,
+        ]);
+        if ($result['id']) {
+          $contribution = $result['values'][0];
+          if ($contribution['contribution_status_id'] != $failedStatusId) {
+            civicrm_api3('Contribution', 'create', ['id' => $contribution['id'], 'contribution_status_id' => $failedStatusId, 'note' => $note]);
+          }
+        }
+        else {
+          try {
+            $charge = \Stripe\Charge::retrieve($chargeId);
+            $contact = civicrm_api3('StripeCustomer', 'get', [
+              'sequential' => 1,
+              'id' => $charge->customer,
+            ]);
+            if ($contact['count']) {
+              $contributionParams = [
+                'contact_id' => $contact['values'][0]['contact_id'],
+                'trxn_id' => $chargeId,
+                'contribution_status_id' => $failedStatusId,
+                'receive_date' => date($charge->created, 'YmdHis'),
+                'total_amount' => $charge->amount / 100,
+                'currency' => strtoupper($charge->currency),
+                'note' => $note,
+              ];
+              civicrm_api3('Contribution', 'create', $contributionParams);
+            }
+          }
+          catch (Exception $e) {
+            $this->exception('Cannot retrieve charge from Stripe');
+          }
         }
         return TRUE;
 
