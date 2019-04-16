@@ -255,15 +255,55 @@ class CRM_Core_Payment_StripeIPN extends CRM_Core_Payment_BaseIPN {
 
       // One-time donation and per invoice payment.
       case 'charge.failed':
-        $failureCode = $this->retrieve('failure_code', 'String');
-        $failureMessage = $this->retrieve('failure_message', 'String');
         $chargeId = $this->retrieve('charge_id', 'String');
-        // @fixme: Check if "note" param actually does anything!
-        $params = [
-          'note' => "{$failureCode} : {$failureMessage}",
-          'contribution_id' => civicrm_api3('Contribution', 'getvalue', ['trxn_id' => $chargeId, 'return' => 'id']),
-        ];
-        $this->recordFailed($params);
+        $note = $this->getFailureNote();
+        $failedStatusId = CRM_Core_PseudoConstant::getKey('CRM_Contribute_BAO_Contribution', 'contribution_status_id', 'Failed');
+        $result = civicrm_api3('Contribution', 'get', [
+          'sequential' => 1,
+          'trxn_id' => $chargeId,
+        ]);
+        if ($result['id']) {
+          $contribution = $result['values'][0];
+          if ($contribution['contribution_status_id'] != $failedStatusId) {
+            civicrm_api3('Contribution', 'create', ['id' => $contribution['id'], 'contribution_status_id' => $failedStatusId, 'note' => $note]);
+          }
+        }
+        else {
+          try {
+            $charge = \Stripe\Charge::retrieve($chargeId);
+            $contact = civicrm_api3('StripeCustomer', 'get', [
+              'sequential' => 1,
+              'id' => $charge->customer,
+            ]);
+            if ($contact['count']) {
+              $contactId = $contact['values'][0]['contact_id'];
+              if ($charge->invoice) {
+                $lastContribution = civicrm_api3('Contribution', 'get', [
+                  'sequential' => 1,
+                  'return' => ["trxn_id"],
+                  'contact_id' => $contactId,
+                  'trxn_id' => ['IS NOT NULL' => 1],
+                  'options' => ['sort' => "id desc", 'limit' => 1],
+                ]);
+                if ($lastContribution['id']) {
+                  $lastCharge = \Stripe\Charge::retrieve($lastContribution['values'][0]['trxn_id']);
+                  if ($lastCharge->invoice != $charge->invoice) {
+                    $this->failedContribution($chargeId, $charge, $contactId);
+                  }
+                }
+                else {
+                  $this->failedContribution($chargeId, $charge, $contactId);
+                }
+              }
+              else {
+                $this->failedContribution($chargeId, $charge, $contactId);
+              }
+            }
+          }
+          catch (\Stripe\Error\Base $e) {
+            $this->exception('Cannot retrieve charge from Stripe');
+          }
+        }
         return TRUE;
 
       case 'charge.refunded':
@@ -333,6 +373,50 @@ class CRM_Core_Payment_StripeIPN extends CRM_Core_Payment_BaseIPN {
       'payment_processor_id' => $this->_paymentProcessor['id'],
       'is_email_receipt' => $this->getSendEmailReceipt(),
     ]);
+  }
+
+  /**
+   * @param $chargeId
+   * @param $charge
+   * @param int $contactId
+   *
+   * @throws \CRM_Core_Exception
+   * @throws \CiviCRM_API3_Exception
+   */
+  private function failedContribution($chargeId, $charge, $contactId) {
+    $contributionParams = [
+      'financial_type_id' => 1,
+      'contact_id' => $contactId,
+      'trxn_id' => $chargeId,
+      'contribution_status_id' => "Failed",
+      'receive_date' => date('YmdHis', $charge->created),
+      'total_amount' => $charge->amount / 100,
+      'currency' => strtoupper($charge->currency),
+      'note' => $this->getFailureNote(),
+    ];
+    if ($charge->invoice) {
+      $invoice = \Stripe\Invoice::retrieve($charge->invoice);
+      $recur = civicrm_api3('ContributionRecur', 'get', [
+        'sequential' => 1,
+        'trxn_id' => $invoice->subscription,
+      ]);
+      if ($recur['count']) {
+        $contributionParams['contribution_recur_id'] = $recur['id'];
+        $contributionParams['payment_instrument_id'] = $recur['values'][0]['payment_instrument_id'];
+        $contributionParams['financial_type_id'] = $recur['values'][0]['financial_type_id'];
+      }
+    }
+    civicrm_api3('Contribution', 'create', $contributionParams);
+  }
+
+  /**
+   * @return string
+   * @throws \CRM_Core_Exception
+   */
+  private function getFailureNote() {
+    $failureCode = $this->retrieve('failure_code', 'String');
+    $failureMessage = $this->retrieve('failure_message', 'String');
+    return '[' . $this->event_type . '] ' . $failureCode . ' : ' . $failureMessage;
   }
 
   /**
