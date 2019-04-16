@@ -285,13 +285,7 @@ class CRM_Core_Payment_StripeIPN extends CRM_Core_Payment_BaseIPN {
             'total_amount' => $this->amount,
             'is_email_receipt' => $this->is_email_receipt,
           ];
-          $result = civicrm_api3('Contribution', 'repeattransaction', $contributionParams);
-          // set invoice_id because repeattransaction removes it from params
-          $params = [
-            'id' => $result['id'],
-            'invoice_id' => $this->invoice_id,
-          ];
-          civicrm_api3('Contribution', 'create', $params);
+          civicrm_api3('Contribution', 'repeattransaction', $contributionParams);
         }
 
         $failureCount = civicrm_api3('ContributionRecur', 'getvalue', array(
@@ -478,10 +472,19 @@ class CRM_Core_Payment_StripeIPN extends CRM_Core_Payment_BaseIPN {
         // Same approach as api repeattransaction. Find last contribution associated
         // with our recurring contribution.
         $contribution = civicrm_api3('contribution', 'getsingle', array(
-          'return' => array('id', 'contribution_status_id', 'total_amount', 'trxn_id', 'invoice_id'),
+          'return' => array('id', 'contribution_status_id', 'total_amount', 'trxn_id'),
           'contribution_recur_id' => $this->contribution_recur_id,
           'options' => array('limit' => 1, 'sort' => 'id DESC'),
         ));
+        if ($contribution['trxn_id']) {
+          try {
+            $charge = \Stripe\Charge::retrieve($contribution['trxn_id']);
+            $contribution['invoice_id'] = $charge->invoice;
+          }
+          catch (Exception $e) {
+            $this->exception('Cannot retrieve charge from Stripe');
+          }
+        }
         $this->previous_contribution = $contribution;
       }
       catch (Exception $e) {
