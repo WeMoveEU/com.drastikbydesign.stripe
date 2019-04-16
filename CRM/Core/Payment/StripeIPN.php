@@ -280,13 +280,18 @@ class CRM_Core_Payment_StripeIPN extends CRM_Core_Payment_BaseIPN {
           $contributionParams = [
             'contribution_recur_id' => $this->contribution_recur_id,
             'trxn_id' => $this->charge_id,
-            'invoice_id' => $this->invoice_id,
             'contribution_status_id' => 'Failed',
             'receive_date' => $failDate,
             'total_amount' => $this->amount,
             'is_email_receipt' => $this->is_email_receipt,
           ];
-          civicrm_api3('Contribution', 'repeattransaction', $contributionParams);
+          $result = civicrm_api3('Contribution', 'repeattransaction', $contributionParams);
+          // set invoice_id because repeattransaction removes it from params
+          $params = [
+            'id' => $result['id'],
+            'invoice_id' => $this->invoice_id,
+          ];
+          civicrm_api3('Contribution', 'create', $params);
         }
 
         $failureCount = civicrm_api3('ContributionRecur', 'getvalue', array(
