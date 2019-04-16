@@ -245,7 +245,6 @@ class CRM_Core_Payment_StripeIPN extends CRM_Core_Payment_BaseIPN {
             'contribution_status_id' => 'Completed',
             'receive_date' => $this->receive_date,
             'trxn_id' => $this->charge_id,
-            'invoice_id' => $this->invoice_id,
             'total_amount' => $this->amount,
             'fee_amount' => $this->fee,
             'is_email_receipt' => $this->is_email_receipt,
