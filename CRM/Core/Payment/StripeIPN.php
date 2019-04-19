@@ -337,10 +337,11 @@ class CRM_Core_Payment_StripeIPN extends CRM_Core_Payment_BaseIPN {
             ]);
             if ($contact['count']) {
               $contributionParams = [
+                'financial_type_id' => 1,
                 'contact_id' => $contact['values'][0]['contact_id'],
                 'trxn_id' => $chargeId,
                 'contribution_status_id' => $failedStatusId,
-                'receive_date' => date($charge->created, 'YmdHis'),
+                'receive_date' => date('YmdHis', $charge->created),
                 'total_amount' => $charge->amount / 100,
                 'currency' => strtoupper($charge->currency),
                 'note' => $note,
