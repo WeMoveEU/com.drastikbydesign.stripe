@@ -346,6 +346,18 @@ class CRM_Core_Payment_StripeIPN extends CRM_Core_Payment_BaseIPN {
                 'currency' => strtoupper($charge->currency),
                 'note' => $note,
               ];
+              if ($charge->invoice) {
+                $invoice = \Stripe\Invoice::retrieve($charge->invoice);
+                $recur = civicrm_api3('ContributionRecur', 'get', [
+                  'sequential' => 1,
+                  'trxn_id' => $invoice->subscription,
+                ]);
+                if ($recur['count']) {
+                  $contributionParams['contribution_recur_id'] = $recur['id'];
+                  $contributionParams['payment_instrument_id'] = $recur['values'][0]['payment_instrument_id'];
+                  $contributionParams['financial_type_id'] = $recur['values'][0]['financial_type_id'];
+                }
+              }
               civicrm_api3('Contribution', 'create', $contributionParams);
             }
           }
