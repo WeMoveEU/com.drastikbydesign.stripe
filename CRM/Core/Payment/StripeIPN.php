@@ -358,7 +358,7 @@ class CRM_Core_Payment_StripeIPN extends CRM_Core_Payment_BaseIPN {
               }
             }
           }
-          catch (Exception $e) {
+          catch (\Stripe\Error\Base $e) {
             $this->exception('Cannot retrieve charge from Stripe');
           }
         }
