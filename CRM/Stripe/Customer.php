@@ -22,7 +22,7 @@ class CRM_Stripe_Customer {
     }
     $queryParams = [
       1 => [$params['contact_id'], 'String'],
-      2 => [$params['is_live'] ? 1 : 0, 'Boolean'],
+      2 => [$params['is_live'] ? 1 : 0, 'Integer'],
       3 => [$params['processor_id'], 'Positive'],
     ];
     
@@ -50,7 +50,7 @@ class CRM_Stripe_Customer {
     $queryParams = [
       1 => [$params['contact_id'], 'String'],
       2 => [$params['customer_id'], 'String'],
-      3 => [$params['is_live'], 'Boolean'],
+      3 => [(int) $params['is_live'], 'Integer'],
       4 => [$params['processor_id'], 'Integer'],
     ];
     CRM_Core_DAO::executeQuery("INSERT INTO civicrm_stripe_customers
@@ -99,7 +99,7 @@ class CRM_Stripe_Customer {
     $params = [
       'contact_id' => $params['contact_id'],
       'customer_id' => $stripeCustomer->id,
-      'is_live' => $params['is_live'],
+      'is_live' => (int) $params['is_live'],
       'processor_id' => $params['processor_id'],
     ];
     self::add($params);
@@ -124,7 +124,7 @@ class CRM_Stripe_Customer {
 
     $queryParams = [
       1 => [$params['contact_id'], 'String'],
-      2 => [$params['is_live'], 'Boolean'],
+      2 => [(int) $params['is_live'], 'Integer'],
       3 => [$params['processor_id'], 'Integer'],
     ];
     $sql = "DELETE FROM civicrm_stripe_customers
