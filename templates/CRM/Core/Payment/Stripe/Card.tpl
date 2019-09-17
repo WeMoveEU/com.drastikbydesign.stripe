@@ -16,7 +16,7 @@
 
 {* Add the components required for a Stripe card element *}
 {crmScope extensionKey='com.drastikbydesign.stripe'}
-<label for="card-element"><legend>{ts}Credit or debit card{/ts}</legend></label>
+<fieldset><legend>{ts}Credit Card Information{/ts}</legend></fieldset>
 <div id="card-element"></div>
 {* Area for Stripe to report errors *}
 <div id="card-errors" role="alert" class="crm-error alert alert-danger"></div>
