@@ -15,7 +15,7 @@
 {/literal}
 
 {* Add the components required for a Stripe card element *}
-<label for="card-element"><legend>Credit or debit card</legend></label>
+<fieldset><legend>Credit Card Information</legend></fieldset>
 <div id="card-element"></div>
 {* Area for Stripe to report errors *}
 <div id="card-errors" role="alert" class="alert alert-danger"></div>
