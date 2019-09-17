@@ -319,8 +319,9 @@
 
     var style = {
       base: {
-        fontSize: '1.1em', fontWeight: 'lighter'
-      }
+        fontSize: '15px',
+        color: '#333',
+      },
     };
 
     var elementsCreateParams = {style: style, value: {}};
