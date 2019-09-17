@@ -210,7 +210,8 @@ CRM.$(function($) {
 
     var style = {
       base: {
-        fontSize: '20px',
+        fontSize: '15px',
+        color: '#333',
       },
     };
 
