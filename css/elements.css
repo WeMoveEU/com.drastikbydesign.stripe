@@ -6,11 +6,9 @@
   padding: 2%;
   margin: 2% auto;
   max-width: 800px;
-  background-color: #f0f0f0;
-  -webkit-box-shadow: 0 0 1px 1px rgba(0,0,0,0.2);
-  -moz-box-shadow: 0 0 1px 1px rgba(0,0,0,0.2);
-  box-shadow: 0 0 1px 1px rgba(0,0,0,0.2);
-  border: 1px solid transparent;
+  background-color: transparent;
+  border: 1px solid #999;
+  border-radius: 3px;
 }
 #card-element.StripeElement--focus {
   border: 1px solid gold;
