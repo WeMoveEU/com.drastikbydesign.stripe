@@ -365,6 +365,7 @@ class CRM_Core_Payment_StripeIPN extends CRM_Core_Payment_BaseIPN {
           'contribution_test' => $this->_paymentProcessor->getIsTestMode(),
           'options' => ['limit' => 1, 'sort' => 'id DESC'],
         ]);
+        $this->contribution = $contribution;
         $this->previous_contribution = $contribution;
       }
       catch (Exception $e) {
