@@ -1,1 +1,1 @@
-#card-element{padding:2%;margin:2% auto;max-width:800px;background-color:ghostwhite;-webkit-box-shadow:10px 10px 7px -6px rgba(0,0,0,0.81);-moz-box-shadow:10px 10px 7px -6px rgba(0,0,0,0.81);box-shadow:10px 10px 7px -6px rgba(0,0,0,0.81)}#card-errors{margin:2%;display:none}
+#card-element{padding:2%;margin:2% auto;max-width:800px;background-color:transparent;border:1px solid #999;border-radius:3px}#card-errors{margin:2%;display:none}
