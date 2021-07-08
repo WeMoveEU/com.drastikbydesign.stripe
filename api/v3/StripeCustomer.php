@@ -67,6 +67,7 @@ function civicrm_api3_stripe_customer_get($params) {
   }
   $dao = CRM_Core_DAO::executeQuery($query, $whereParam);
 
+  $results = [];
   while ($dao->fetch()) {
     $result = [
       'id' => $dao->id,
